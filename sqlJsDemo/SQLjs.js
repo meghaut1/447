@@ -13,6 +13,8 @@ con.connect(function(err) {
   con.query("SELECT * FROM event", function (err, result, fields) {
     if (err) throw err;
     console.log(result);
+    con.destroy();
   });
 });
+
 //.exit
