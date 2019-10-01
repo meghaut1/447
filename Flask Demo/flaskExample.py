@@ -7,10 +7,8 @@ Created on Tue Oct  1 15:25:13 2019
 """
 paste http://127.0.0.1:5000/ into browser to connect to server
 """
-
 from flask import Flask
-
-
+#Backend location
 print("hello")
 
 
