@@ -8,34 +8,42 @@ Created on Tue Oct  1 15:25:13 2019
 paste http://127.0.0.1:5000/ into browser to connect to server
 """
 from flask import Flask
-
 import MySQLdb
+app = Flask(__name__)
 
+# Backend functions
+# Can edit the db on the backend
 db = MySQLdb.connect(host="localhost",    # your host, usually localhost
                      user="root",         # your username
-                     passwd="",  # your password
-                     db="callcenter")        # name of the data base
+                     passwd="",           # your password
+                     db="callcenter")     # name of the data base
 
-# you must create a Cursor object. It will let
-#  you execute all the queries you need
 cur = db.cursor()
 
-# Use all the SQL you like
 cur.execute("SELECT * FROM event")
 
 # print all the first cell of all the rows
-all_rows = cur.fetchall()
+all_rows = list(cur.fetchall())
 print(all_rows)
 
 db.close()
-print("hello")
 
+# Frontend functions
+@app.route('/')
+def showInt():
+    # Reconnecting to db to print results on webpage
+    db = MySQLdb.connect(host="localhost",    
+                     user="root",         
+                     passwd="",  
+                     db="callcenter")
 
-app = Flask(__name__)
+    cur = db.cursor()
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    return "Hello Nuclear Geeks"
-
+    cur.execute("SELECT * FROM event")
+    row = cur.fetchall()
+    db.close()
+    
+    return str(row)
+  
 if __name__ == '__main__':
     app.run()
