@@ -42,8 +42,17 @@ def showInt():
     cur.execute("SELECT * FROM event")
     row = cur.fetchall()
     db.close()
-    
-    return str(row)
+    ret = "Event 0: ID, Address, Service, Urgency, Date, Time, Zipcode<br/>"
+    count = 0
+    for i in row:
+        count += 1
+        ret +="Event " + str(count) + ": " + str(i[0]) + ", " \
+        + str(i[1]) + ", " + str(i[2]) + ", " + str(i[3]) + ", " \
+        + str(i[4]) + ", " + str(i[5]) + ", " + str(i[6]) + "<br/>"
+     
+    return str(ret)
+    #return "event 1: " + str(row[0]) + "<br/>event 2: " + str(row[1])
+
   
 if __name__ == '__main__':
     app.run()
