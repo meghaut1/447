@@ -8,6 +8,7 @@ from Prototype import app
 import sqlite3
 
 DATABASE = 'callCenter.db'
+CALLID = 1000
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -31,6 +32,7 @@ def getInfo():
     name = request.form['name']
     urgency = request.form['Urgency']
     time = str(datetime.now()) # current date and time of submission
+    CALLID = CALLID + 1
     return callCenter()
 
 @app.route('/incidentPanel')
