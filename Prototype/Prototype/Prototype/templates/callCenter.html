@@ -4,19 +4,25 @@
 <head>
     <meta charset="utf-8" />
     <title>Call Center</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='content/styleSheet.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='content/styleSheet.css') }}">
 </head>
 <body>
-    <h1 style="font-family: georgia"; align="center">Call Center</h1><div style="text-align:center;">
-    <h3 style="font-family: georgia"; align ="center"><em>Please enter in the following info:</em></h3>
-    <form name="event", action=".", method="post"><br />
-        <div style="float: left; padding-left: 400px">
+  <div class="navbar">
+    <a class="active" href="incidentPanel">Incident Panel</a>
+    <!--<a href="#news">Mission Panel</a>-->
+    <a href="">Report an Incident</a>
+  </div>
+  <h1 style="font-family: georgia" ; align="center">Call Center</h1><div style="text-align:center;">
+    <h3 style="font-family: georgia" ; align="center"><em>Please enter in the following info:</em></h3>
+    <form name="event" , action="." , method="post">
+      <br />
+      <div style="float: left; padding-left: 400px">
         Address: <br />
         <input type="text" name="address"<br />
-        <br /><br />Phone Number: <br />   
-         <input type=" text" name="phoneNumber" />
-        </div>
-    <div style="float:right ; padding-right: 400px">
+        <br /><br />Phone Number: <br />
+        <input type=" text" name="phoneNumber" />
+      </div>
+      <div style="float:right ; padding-right: 400px">
         Name: <br />
         <input type="type" name="name" />
         <br /><br /> Urgency: <br />
@@ -25,9 +31,11 @@
         <input type="radio" name="Urgency" value="3" /> 3
         <input type="radio" name="Urgency" value="4" /> 4
         <input type="radio" name="Urgency" value="5" /> 5
-        <br /><br /> </div>
-    <br /><br /><br /><br /><br /><br /><br /><br />
-        <input type="submit" value=" submit" />
-    </form></div>
+        <br /><br />
+      </div>
+      <br /><br /><br /><br /><br /><br /><br /><br />
+      <input type="submit" value=" submit" />
+    </form>
+  </div>
 </body>
 </html>

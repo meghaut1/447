@@ -8,6 +8,7 @@ from Prototype import app
 import sqlite3
 
 DATABASE = 'callCenter.db'
+CALLID = 1000
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -37,4 +38,3 @@ def getInfo():
 @app.route('/incidentPanel')
 def incidentPanel():
     return render_template('IncidentPanel.html')
-
