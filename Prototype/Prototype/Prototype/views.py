@@ -31,6 +31,7 @@ def getInfo():
     name = request.form['name']
     urgency = request.form['Urgency']
     time = str(datetime.now()) # current date and time of submission
+    print(name)
     return callCenter()
 
 @app.route('/incidentPanel')
