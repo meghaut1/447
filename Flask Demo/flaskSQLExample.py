@@ -30,7 +30,7 @@ db.close()
 
 # Frontend functions
 @app.route('/')
-def showInt():
+def showDB():
     # Reconnecting to db to print results on webpage
     db = MySQLdb.connect(host="localhost",    
                      user="root",         
