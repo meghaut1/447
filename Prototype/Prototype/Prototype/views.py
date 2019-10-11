@@ -10,6 +10,11 @@ import sqlite3
 DATABASE = 'callCenter.db'
 CALLID = 1000
 
+def getCallID():
+  global CALLID
+  CALLID = CALLID + 1
+  return CALLID
+
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
