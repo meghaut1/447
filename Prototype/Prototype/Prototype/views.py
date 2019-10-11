@@ -32,7 +32,23 @@ def getInfo():
     name = request.form['name']
     urgency = request.form['Urgency']
     time = str(datetime.now()) # current date and time of submission
-    print(name)
+    conn = get_db()
+    cur = conn.cursor()
+    '''
+    Table entry order
+    1) Operator
+    2) Victim
+    3) Call
+    4) Event
+    5) Mission
+    '''
+    # Operator
+    #cur.execute("INSERT INTO CallOperator (operID, name) VALUES ('1001', 'Jane Doe')")
+
+    res = cur.execute("SELECT * FROM Call")
+    print(res)
+    cur.close()
+    conn.close()
     return callCenter()
 
 @app.route('/incidentPanel')
