@@ -37,7 +37,8 @@ def getInfo():
     name = request.form['name']
     urgency = request.form['Urgency']
     time = str(datetime.now()) # current date and time of submission
-    conn = get_db()
+
+    conn = sqlite3.connect("callCenter.db")
     cur = conn.cursor()
     '''
     Table entry order
@@ -50,8 +51,10 @@ def getInfo():
     # Operator
     #cur.execute("INSERT INTO CallOperator (operID, name) VALUES ('1001', 'Jane Doe')")
 
-    res = cur.execute("SELECT * FROM Call")
-    print(res)
+    cur.execute("SELECT * FROM Event")
+    row = cur.fetchall()
+    print(row)
+    # print(res)
     cur.close()
     conn.close()
     return callCenter()

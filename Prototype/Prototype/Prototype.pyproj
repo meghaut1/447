@@ -42,7 +42,7 @@
     <Folder Include="Prototype\templates\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Prototype\database\callCenter.db" />
+    <Content Include="Prototype\callCenter.db" />
     <Content Include="Prototype\static\content\styleSheet.css" />
     <Content Include="Prototype\templates\callCenter.html" />
     <Content Include="Prototype\templates\IncidentPanel.html" />
