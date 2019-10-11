@@ -51,7 +51,7 @@ def getInfo():
     # Operator
     #cur.execute("INSERT INTO CallOperator (operID, name) VALUES ('1001', 'Jane Doe')")
 
-    cur.execute("SELECT * FROM Event")
+    cur.execute("SELECT * FROM Call")
     row = cur.fetchall()
     print(row)
     # print(res)
