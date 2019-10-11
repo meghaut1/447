@@ -19,6 +19,7 @@ def get_db():
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = sqlite3.connect(DATABASE)
+        g._database.close()
     return db
 
 # run ipconfig in terminal then use the IPv4 address:5000 to access page
@@ -36,7 +37,7 @@ def getInfo():
     phoneNumber = request.form['phoneNumber']
     name = request.form['name']
     urgency = request.form['Urgency']
-
+    print(name)
     # variables that need fields in the html
     city = 'Balimore'
     state = 'MD'
@@ -61,7 +62,8 @@ def getInfo():
     # adding taken value from html into the db
     # format input can do on Tuesday
     cur.execute('''INSERT INTO Victim (name, address, city, state, zipCode, phone) VALUES (?, ?, ?, ?, ?, ?)''', (name, address, city, state, zipCode, phoneNumber))
-    
+    row = cur.execute('''SELECT * FROM Victim''')
+    print(row.fetchall())
     #row = cur.fetchall()
     #print(row)
     conn.commit()  
