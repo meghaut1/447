@@ -36,6 +36,12 @@ def getInfo():
     phoneNumber = request.form['phoneNumber']
     name = request.form['name']
     urgency = request.form['Urgency']
+
+    # variables that need fields in the html
+    city = 'Balimore'
+    state = 'MD'
+    zipCode = '21250'
+
     time = str(datetime.now()) # current date and time of submission
 
     conn = sqlite3.connect("callCenter.db")
@@ -43,16 +49,21 @@ def getInfo():
     '''
     Table entry order
     1) Operator
-    2) Victim
-    3) Call
+    2) Victim 
+    3) Call 
     4) Event
     5) Mission
     '''
     # Operator
-    cur.execute('''INSERT INTO CallOperator (operID, name) VALUES (1001, 'Jane Doe')''')
+    # need way to enter operator info
+    #cur.execute('''INSERT INTO CallOperator (operID, name) VALUES (1001, 'Jane Doe')''')
+
+    # adding taken value from html into the db
+    # format input can do on Tuesday
+    cur.execute('''INSERT INTO Victim (name, address, city, state, zipCode, phone) VALUES (?, ?, ?, ?, ?, ?)''', (name, address, city, state, zipCode, phoneNumber))
     
-    row = cur.fetchall()
-    print(row)
+    #row = cur.fetchall()
+    #print(row)
     conn.commit()  
     cur.close()
     conn.close()
