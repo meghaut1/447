@@ -49,12 +49,11 @@ def getInfo():
     5) Mission
     '''
     # Operator
-    #cur.execute("INSERT INTO CallOperator (operID, name) VALUES ('1001', 'Jane Doe')")
-
-    cur.execute("SELECT * FROM Call")
+    cur.execute('''INSERT INTO CallOperator (operID, name) VALUES (1001, 'Jane Doe')''')
+    
     row = cur.fetchall()
     print(row)
-    # print(res)
+    conn.commit()  
     cur.close()
     conn.close()
     return callCenter()
