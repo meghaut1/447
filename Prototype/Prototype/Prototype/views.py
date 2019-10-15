@@ -73,4 +73,23 @@ def getInfo():
 
 @app.route('/incidentPanel')
 def incidentPanel():
-    return render_template('IncidentPanel.html')
+
+	# create a main list.
+	mainList = []
+
+	# for each row in the database for the Call Center:
+		# add each value in the row to a sublist. I.e., subList = [timestamp, type, address, phone, urgency]
+		# append this sublist to the main list. I.e., mainList.append(subList)
+
+	# for i in main list of data:
+	#htmlString = "<tr class=\"data\">"
+	#+ "<td>" + 'TIMESTAMP VARIABLE IN SUBLIST[i]'
+	#+ "</td><td>" + 'TYPE VARIABLE IN SUBLIST[i]'
+	#+ "</td><td>" + 'ADDRESS VARIABLE IN SUBLIST[i]'
+	#+ "</td><td>" + 'PHONE VARIABLE IN SUBLIST[i]'
+	#+ "</td><td>" + 'URGENCY VARIABLE IN SUBLIST[i]'
+
+	# append this htmlString to the HTML table.
+	#document.getElementById('tbl_Incident').innerHTML += htmlString	*this is what you would type in javascript. Need something similar in Python.
+
+	return render_template('IncidentPanel.html')
