@@ -39,6 +39,9 @@ def getInfo():
     urgency = request.form['Urgency']
     print(name)
     # variables that need fields in the html
+    #city = request.form['city']
+    #state = request.form['state']
+    #zipCode = request.form['zipCode']
     city = 'Balimore'
     state = 'MD'
     zipCode = '21250'
@@ -88,6 +91,7 @@ def incidentPanel():
 	#+ "</td><td>" + 'ADDRESS VARIABLE IN SUBLIST[i]'
 	#+ "</td><td>" + 'PHONE VARIABLE IN SUBLIST[i]'
 	#+ "</td><td>" + 'URGENCY VARIABLE IN SUBLIST[i]'
+  #+ "</td></tr>"
 
 	# append this htmlString to the HTML table.
 	#document.getElementById('tbl_Incident').innerHTML += htmlString	*this is what you would type in javascript. Need something similar in Python.
