@@ -34,7 +34,7 @@ def callCenter():
 @app.route('/', methods=['POST'])
 def getInfo():
     print('here')
-    
+
     # variables for the Operator
     operID = request.form['id']
     name = request.form['name']
@@ -43,13 +43,13 @@ def getInfo():
 
     # variables for the Victim
     vName = request.form['vName']
-    address = request.form['address']
+    #address = request.form['address']
     city = request.form['city']
     state = request.form['state']
     zipCode = request.form['zipCode']
 
     print(vName + " " + address + " " + city + " " + state + " " + zipCode)
-    
+
     # variables for Call
     '''
     callID = getCallID()
@@ -58,7 +58,7 @@ def getInfo():
     # https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior
     # Use the above link if you would like to change the formatting of date or time
 
-    #date = t.strftime("%d/%m/%y") # strftime() returns a formatted string. Format of date is day/month/year. 
+    #date = t.strftime("%d/%m/%y") # strftime() returns a formatted string. Format of date is day/month/year.
     #time = t.strftime("%H:%M") # 24 hour time. Format of time is hours:minutes (00:00 - 23:59)
     phoneNumber = request.form['phoneNumber']
     urgency = request.form['Urgency']
@@ -69,28 +69,28 @@ def getInfo():
     '''
     Table entry order
     1) Operator
-    2) Victim 
-    3) Call 
+    2) Victim
+    3) Call
     4) Event
     5) Mission
     '''
     cur.execute('''INSERT INTO Victim (name, address, city, state, zipCode, phone) VALUES (?, ?, ?, ?, ?, ?)''', (vName, address, city, state, zipCode, phoneNumber))
-    
+
     cur.execute('''INSERT INTO CallOperator(operID, name) VALUES (?, ?)''', (operID, name))
-   
-    conn.commit()  
+
+    conn.commit()
     cur.close()
     conn.close()
-    
+
     return callCenter()
-   
+
 def pullDB():
     conn = sqlite3.connect("callCenter.db")
     cur = conn.cursor()
     row = cur.execute('SELECT * FROM Victim')
     row = cur.fetchall()
     return list(row)
-  
+
 @app.route('/incidentPanel')
 def incidentPanel():
     victims = pullDB()
