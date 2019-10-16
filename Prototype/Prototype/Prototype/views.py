@@ -38,6 +38,7 @@ def getInfo():
     # variables for the Operator
     operID = request.form['id']
     name = request.form['name']
+    print(name + " " + operID)
     ######################
 
     # variables for the Victim
@@ -46,18 +47,19 @@ def getInfo():
     city = request.form['city']
     state = request.form['state']
     zipCode = request.form['zipCode']
-    #city = 'Balimore'
-    #state = 'MD'
-    #zipCode = '21250'
 
+    print(vName + " " + address + " " + city + " " + state + " " + zipCode)
+    
     # variables for Call
+    '''
     callID = getCallID()
     t = datetime.now()
+    '''
     # https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior
     # Use the above link if you would like to change the formatting of date or time
 
-    date = t.strftime("%d/%m/%y") # strftime() returns a formatted string. Format of date is day/month/year. 
-    time = t.strftime("%H:%M") # 24 hour time. Format of time is hours:minutes (00:00 - 23:59)
+    #date = t.strftime("%d/%m/%y") # strftime() returns a formatted string. Format of date is day/month/year. 
+    #time = t.strftime("%H:%M") # 24 hour time. Format of time is hours:minutes (00:00 - 23:59)
     phoneNumber = request.form['phoneNumber']
     urgency = request.form['Urgency']
     emergency = request.form['emergency']
@@ -72,31 +74,28 @@ def getInfo():
     4) Event
     5) Mission
     '''
-    # Operator
-    # need way to enter operator info
-    #cur.execute('''INSERT INTO CallOperator (operID, name) VALUES (1001, 'Jane Doe')''')
-
-    # adding taken value from html into the db
-    # format input can do on Tuesday
+    cur.execute('''INSERT INTO Victim (name, address, city, state, zipCode, phone) VALUES (?, ?, ?, ?, ?, ?)''', (vName, address, city, state, zipCode, phoneNumber))
     
-    
-    #cur.execute('''INSERT INTO Victim (name, address, city, state, zipCode, phone) VALUES (?, ?, ?, ?, ?, ?)''', (vName, address, city, state, zipCode, phoneNumber))
-        
-    #cur.execute('''INSERT INTO CallOperator(operID, name) VALUES (?, ?)''', (operID, name))
-    
-    row = cur.execute('''SELECT * FROM Victim''')
-    print(row.fetchall())
-    row = cur.fetchall()
-    print(row)
-    print('here')
+    cur.execute('''INSERT INTO CallOperator(operID, name) VALUES (?, ?)''', (operID, name))
+   
     conn.commit()  
     cur.close()
     conn.close()
+    
     return callCenter()
-
+   
+def pullDB():
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+    row = cur.execute('SELECT * FROM Victim')
+    row = cur.fetchall()
+    return list(row)
+  
 @app.route('/incidentPanel')
 def incidentPanel():
-
+    victims = pullDB()
+    print(victims[0][1])
+    print(victims)
     extends = '{% extends "IncidentPanel.html" %}'
     block = '{% block table %}'
     endblock = '{% endblock %}'
