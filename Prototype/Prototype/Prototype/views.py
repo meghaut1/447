@@ -33,6 +33,7 @@ def callCenter():
 # gets input from HTML page
 @app.route('/', methods=['POST'])
 def getInfo():
+    print('here')
     
     # variables for the Operator
     operID = request.form['id']
@@ -50,8 +51,8 @@ def getInfo():
     #zipCode = '21250'
 
     # variables for Call
-    #callID = getCallID()
-    #t = datetime.now()
+    callID = getCallID()
+    t = datetime.now()
     # https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior
     # Use the above link if you would like to change the formatting of date or time
 
