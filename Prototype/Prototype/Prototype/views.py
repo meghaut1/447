@@ -42,14 +42,14 @@ def getInfo():
 
     # variables for the Victim
     vName = request.form['vName']
-    address = request.form['address']
+    #address = request.form['address']
     city = request.form['city']
     state = request.form['state']
     zipCode = request.form['zipCode']
     #city = 'Balimore'
     #state = 'MD'
     #zipCode = '21250'
-
+    print(name)
     # variables for Call
     callID = getCallID()
     t = datetime.now()
