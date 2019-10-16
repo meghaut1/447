@@ -77,8 +77,11 @@ def getInfo():
 @app.route('/incidentPanel')
 def incidentPanel():
 
+    extends = '{% extends "IncidentPanel.html" %}'
+    block = '{% block table %}'
+    endblock = '{% endblock %}'
 	# create a main list.
-	mainList = []
+    mainList = []
 
 	# for each row in the database for the Call Center:
 		# add each value in the row to a sublist. I.e., subList = [timestamp, type, address, phone, urgency]
@@ -94,6 +97,8 @@ def incidentPanel():
   #+ "</td></tr>"
 
 	# append this htmlString to the HTML table.
-	#document.getElementById('tbl_Incident').innerHTML += htmlString	*this is what you would type in javascript. Need something similar in Python.
-
-	return render_template('IncidentPanel.html')
+    #htmlString = extends + block + htmlString + endblock
+    #with open("Prototype/templates/IncidentTable.html", "w") as f
+    #   f.write(htmlString)
+    #return render_template('IncidentTable.html')
+    return render_template('IncidentPanel.html')
