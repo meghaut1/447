@@ -55,7 +55,7 @@ def getInfo():
     # Use the above link if you would like to change the formatting of date or time
 
     date = t.strftime("%d/%m/%y") # strftime() returns a formatted string. Format of date is day/month/year. 
-    time = t.strftime("%H:%M") # 24 hour time. Format of time is hours:minutes
+    time = t.strftime("%H:%M") # 24 hour time. Format of time is hours:minutes (00:00 - 23:59)
     phoneNumber = request.form['phoneNumber']
     urgency = request.form['Urgency']
     emergency = request.form['emergency']
