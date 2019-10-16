@@ -33,20 +33,32 @@ def callCenter():
 # gets input from HTML page
 @app.route('/', methods=['POST'])
 def getInfo():
-    address = request.form['address']
-    phoneNumber = request.form['phoneNumber']
+    # variables for the Operator
+    operID = request.form['id']
     name = request.form['name']
-    urgency = request.form['Urgency']
-    print(name)
-    # variables that need fields in the html
-    #city = request.form['city']
-    #state = request.form['state']
-    #zipCode = request.form['zipCode']
-    city = 'Balimore'
-    state = 'MD'
-    zipCode = '21250'
+    ######################
 
-    time = str(datetime.now()) # current date and time of submission
+    # variables for the Victim
+    vName = request.form['vName']
+    address = request.form['address']
+    city = request.form['city']
+    state = request.form['state']
+    zipCode = request.form['zipCode']
+    #city = 'Balimore'
+    #state = 'MD'
+    #zipCode = '21250'
+
+    # variables for Call
+    callID = getCallID()
+    t = datetime.now()
+    # https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior
+    # Use the above link if you would like to change the formatting of date or time
+
+    date = t.strftime("%d/%m/%y") # strftime() returns a formatted string. Format of date is day/month/year. 
+    time = t.strftime("%H:%M") # 24 hour time. Format of time is hours:minutes
+    phoneNumber = request.form['phoneNumber']
+    urgency = request.form['Urgency']
+    emergency = request.form['emergency']
 
     conn = sqlite3.connect("callCenter.db")
     cur = conn.cursor()

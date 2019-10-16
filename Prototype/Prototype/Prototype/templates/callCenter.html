@@ -4,38 +4,66 @@
 <head>
     <meta charset="utf-8" />
     <title>Call Center</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='content/styleSheet.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='content/styleSheet.css') }}" />
+    
+    <style>
+        .columnHeader {
+            font-family: "Arial, Helvetica, sans-serif";
+        }
+
+        .data {
+            text-align: center;
+        }
+    </style>
+
 </head>
 <body>
-  <div class="navbar">
-    <a class="active" href="incidentPanel">Incident Panel</a>
-    <!--<a href="#news">Mission Panel</a>-->
-    <a href="">Report an Incident</a>
-  </div>
-  <h1 style="font-family: georgia" ; align="center">Call Center</h1><div style="text-align:center;">
-    <h3 style="font-family: georgia" ; align="center"><em>Please enter in the following info:</em></h3>
-    <form name="event" action="." method="post">
-      <br />
-      <div style="float: left; padding-left: 400px">
-        Address: <br />
-        <input type="text" name="address"/><br />
-        <br /><br />Phone Number: <br />
-        <input type="text" name="phoneNumber" />
-      </div>
-      <div style="float:right ; padding-right: 400px">
-        Name: <br />
-        <input type="text" name="name" />
-        <br /><br /> Urgency: <br />
-        <input type="radio" name="Urgency" value="1" /> 1
-        <input type="radio" name="Urgency" value="2" /> 2
-        <input type="radio" name="Urgency" value="3" /> 3
-        <input type="radio" name="Urgency" value="4" /> 4
-        <input type="radio" name="Urgency" value="5" /> 5
-        <br /><br />
-      </div>
-      <br /><br /><br /><br /><br /><br /><br /><br />
-      <input type="submit" value=" submit" />
-    </form>
-  </div>
+
+    <div class="navbar">
+        <a href="incidentPanel">Incident Panel</a>
+        <!--<a href="#news">Mission Panel</a>-->
+        <a class="active" href="callCenter">Report an Incident</a>
+    </div>
+
+    <h1 style="text-align: center;">Incident Panel</h1>
+    <br />
+
+    <h1 style="font-family: georgia" ; align="center">Call Center</h1> <div style="text-align:center;">
+        <h3 style="font-family: georgia" ; align="center"><em>Please enter in the following info:</em></h3>
+        <form>
+            <br />
+
+            Operator ID:
+            <input type="text" name="id" />
+            Operator Name:
+            <input type="text" name="name" />
+            Victim Name:
+            <input type="text" name="vName" /><br />
+            <br /><br /><br />
+            City:
+            <input type="text" name="city"<br />
+            State:
+            <input type="text" name="state"<br />
+            Zip Code:
+            <input type="text" name="zipCode"<br />
+            <br /><br /><br />
+
+            Emergency:
+            <input type="text" name="emergency"<br />
+
+            Phone Number:
+            <input type=" text" name="phoneNumber" />
+            Urgency:
+            <input type="radio" name="Urgency" value="1" /> 1
+            <input type="radio" name="Urgency" value="2" /> 2
+            <input type="radio" name="Urgency" value="3" /> 3
+            <input type="radio" name="Urgency" value="4" /> 4
+            <input type="radio" name="Urgency" value="5" /> 5
+            <br /><br />
+
+            <br /><br />
+            <input type="submit" value=" submit" />
+        </form>
+
 </body>
 </html>

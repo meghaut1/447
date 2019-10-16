@@ -45,6 +45,7 @@
     <Content Include="Prototype\callCenter.db" />
     <Content Include="Prototype\static\content\styleSheet.css" />
     <Content Include="Prototype\templates\callCenter.html" />
+    <Content Include="Prototype\templates\deploymentPanel.html" />
     <Content Include="Prototype\templates\IncidentPanel.html" />
     <Content Include="Prototype\templates\IncidentTable.html" />
     <Content Include="requirements.txt" />
