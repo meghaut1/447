@@ -129,31 +129,38 @@ def incidentPanel():
     calls = pullCall()
     events = pullEvent()
 
-    print(victims[0][1])
-    print(victims)
     extends = '{% extends "IncidentPanel.html" %}'
     block = '{% block table %}'
     endblock = '{% endblock %}'
 	# create a main list.
     mainList = []
 
-	# for each row in the database for the Call Center:
-		# add each value in the row to a sublist. I.e., subList = [timestamp, type, address, phone, urgency]
-		# append this sublist to the main list. I.e., mainList.append(subList)
-
-	#for i in main list of data:
-	#htmlString = "<tr class=\"data\">"
-	#+ "<td>" + 'TIMESTAMP VARIABLE IN SUBLIST[i][0]'
-	#+ "</td><td>" + 'TYPE VARIABLE IN SUBLIST[i][1]'
-	#+ "</td><td>" + 'ADDRESS VARIABLE IN SUBLIST[i][2]'
-	#+ "</td><td>" + 'PHONE VARIABLE IN SUBLIST[i][3]'
-	#+ "</td><td>" + 'URGENCY VARIABLE IN SUBLIST[i][4]'
-    #+ "</td><td>" + 'URGENCY VARIABLE IN SUBLIST[i][5]'
-  #+ "</td></tr>"
-
+    # get variables needed for HTML string
+    for i in range(len(victims)):
+        timestamp = calls[i][2] + " " + calls[i][1]
+        emergency = calls[i][3]
+        address = victims[i][1]
+        phone = victims[i][5]
+        urgency = events[i][2]
+        subList = [timestamp, emergency, address, phone, urgency]
+        mainList.append(subList)
+    
+    # generate HTML string
+    htmlString = ""
+    for i in range(len(mainList)):
+        htmlString += "\t<tr class=\"data\">"
+        htmlString += "\n\t\t<td>" + mainList[i][0]
+        htmlString += "</td>\n\t\t<td>" + mainList[i][1]
+        htmlString += "</td>\n\t\t<td>" + mainList[i][2]
+        htmlString += "</td>\n\t\t<td>" + mainList[i][3]
+        htmlString += "</td>\n\t\t<td>" + str(mainList[i][4])
+        htmlString += "</td>\n\t</tr>"
+    
 	# append this htmlString to the HTML table.
-    #htmlString = extends + block + htmlString + endblock
-    #with open("Prototype/templates/IncidentTable.html", "w") as f
-    #   f.write(htmlString)
-    #return render_template('IncidentTable.html')
-    return render_template('IncidentPanel.html')
+    htmlString = extends + "\n" + block + "\n" + htmlString + "\n" + endblock
+
+    # overwrites existing html file
+    with open("Prototype/templates/IncidentTable.html", "w") as f:
+       f.write(htmlString)
+
+    return render_template('IncidentTable.html')
