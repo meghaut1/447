@@ -1,7 +1,8 @@
 """
 Routes and views for the flask application.
 """
-
+# https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior
+# Use the above link if you would like to change the formatting of date or time
 from datetime import datetime
 from flask import render_template, g, request
 from Prototype import app
@@ -9,12 +10,21 @@ import sqlite3
 
 DATABASE = 'callCenter.db'
 CALLID = 1000
+EVENTID = 2000
 
+# Generates new callID for Call table
 def getCallID():
   global CALLID
-  CALLID = CALLID + 1
+  CALLID = CALLID + 4
   return CALLID
 
+# Generates new eventID for Event table
+def getEventID():
+    global EVENTID
+    EVENTID += 1
+    return EVENTID
+
+# Test db connection
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
@@ -39,61 +49,86 @@ def getInfo():
     operID = request.form['id']
     name = request.form['name']
     print(name + " " + operID)
-    ######################
-
+    
     # variables for the Victim
     vName = request.form['vName']
-    #address = request.form['address']
+    address = request.form['address']
     city = request.form['city']
     state = request.form['state']
     zipCode = request.form['zipCode']
 
-    print(vName + " " + address + " " + city + " " + state + " " + zipCode)
-
     # variables for Call
-    '''
-    callID = getCallID()
     t = datetime.now()
-    '''
-    # https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior
-    # Use the above link if you would like to change the formatting of date or time
-
-    #date = t.strftime("%d/%m/%y") # strftime() returns a formatted string. Format of date is day/month/year.
-    #time = t.strftime("%H:%M") # 24 hour time. Format of time is hours:minutes (00:00 - 23:59)
+    date = t.strftime("%d/%m/%y") # strftime() returns a formatted string. Format of date is day/month/year.
+    time = t.strftime("%H:%M") # 24 hour time. Format of time is hours:minutes (00:00 - 23:59)
     phoneNumber = request.form['phoneNumber']
-    urgency = request.form['Urgency']
     emergency = request.form['emergency']
+    callID = getCallID()
 
+    # variables for Event
+    urgency = request.form['Urgency']
+    eventID = getEventID()
+    
+    # Opening db
     conn = sqlite3.connect("callCenter.db")
     cur = conn.cursor()
-    '''
-    Table entry order
-    1) Operator
-    2) Victim
-    3) Call
-    4) Event
-    5) Mission
-    '''
+
+    # Adding victim info
     cur.execute('''INSERT INTO Victim (name, address, city, state, zipCode, phone) VALUES (?, ?, ?, ?, ?, ?)''', (vName, address, city, state, zipCode, phoneNumber))
-
+    # Adding operator info
     cur.execute('''INSERT INTO CallOperator(operID, name) VALUES (?, ?)''', (operID, name))
-
+    # Creating Call row
+    cur.execute('''INSERT INTO Call(callID, date, time, emergency, operID, name) VALUES (?, ?, ?, ?, ?, ?)''', (callID, date, time, emergency, operID, vName))
+    # Creating Event row
+    print(str(eventID) + " " + str(callID) + " " + str(urgency))
+    cur.execute('''INSERT INTO Event(eventID, callID, urgency) VALUES (?, ?, ?)''', (eventID, callID, urgency))
+    # Commit queries and exit db
     conn.commit()
     cur.close()
     conn.close()
 
     return callCenter()
 
-def pullDB():
+# Pulling data from db, returning a list
+def pullVictim():
     conn = sqlite3.connect("callCenter.db")
     cur = conn.cursor()
     row = cur.execute('SELECT * FROM Victim')
     row = cur.fetchall()
+    conn.commit()
+    cur.close()
+    conn.close()
     return list(row)
 
+
+def pullCall():
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+    row = cur.execute('SELECT * FROM Call')
+    row = cur.fetchall()
+    conn.commit()
+    cur.close()
+    conn.close()
+    return list(row)
+
+def pullEvent():
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+    row = cur.execute('SELECT * FROM Event')
+    row = cur.fetchall()
+    conn.commit()
+    cur.close()
+    conn.close()
+    return list(row)
+
+# Printing Call information to make missions
 @app.route('/incidentPanel')
 def incidentPanel():
-    victims = pullDB()
+    # Lists will all have the same length, can combine the indexs to display all the important information
+    victims = pullVictim()
+    calls = pullCall()
+    events = pullEvent()
+
     print(victims[0][1])
     print(victims)
     extends = '{% extends "IncidentPanel.html" %}'
@@ -106,13 +141,14 @@ def incidentPanel():
 		# add each value in the row to a sublist. I.e., subList = [timestamp, type, address, phone, urgency]
 		# append this sublist to the main list. I.e., mainList.append(subList)
 
-	# for i in main list of data:
+	#for i in main list of data:
 	#htmlString = "<tr class=\"data\">"
-	#+ "<td>" + 'TIMESTAMP VARIABLE IN SUBLIST[i]'
-	#+ "</td><td>" + 'TYPE VARIABLE IN SUBLIST[i]'
-	#+ "</td><td>" + 'ADDRESS VARIABLE IN SUBLIST[i]'
-	#+ "</td><td>" + 'PHONE VARIABLE IN SUBLIST[i]'
-	#+ "</td><td>" + 'URGENCY VARIABLE IN SUBLIST[i]'
+	#+ "<td>" + 'TIMESTAMP VARIABLE IN SUBLIST[i][0]'
+	#+ "</td><td>" + 'TYPE VARIABLE IN SUBLIST[i][1]'
+	#+ "</td><td>" + 'ADDRESS VARIABLE IN SUBLIST[i][2]'
+	#+ "</td><td>" + 'PHONE VARIABLE IN SUBLIST[i][3]'
+	#+ "</td><td>" + 'URGENCY VARIABLE IN SUBLIST[i][4]'
+    #+ "</td><td>" + 'URGENCY VARIABLE IN SUBLIST[i][5]'
   #+ "</td></tr>"
 
 	# append this htmlString to the HTML table.
