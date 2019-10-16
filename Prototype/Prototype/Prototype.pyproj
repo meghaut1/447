@@ -46,6 +46,7 @@
     <Content Include="Prototype\static\content\styleSheet.css" />
     <Content Include="Prototype\templates\callCenter.html" />
     <Content Include="Prototype\templates\IncidentPanel.html" />
+    <Content Include="Prototype\templates\IncidentTable.html" />
     <Content Include="requirements.txt" />
     <Content Include="Prototype\static\content\bootstrap.css" />
     <Content Include="Prototype\static\content\bootstrap.min.css" />
