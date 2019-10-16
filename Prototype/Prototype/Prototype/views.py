@@ -15,14 +15,21 @@ EVENTID = 2000
 # Generates new callID for Call table
 def getCallID():
   global CALLID
-  CALLID = CALLID + 4
+  events = pullEvent()
+  ids = [x[1] for x in events]
+  while CALLID in ids:
+        CALLID = CALLID + 4
   return CALLID
 
 # Generates new eventID for Event table
 def getEventID():
     global EVENTID
-    EVENTID += 1
+    events = pullEvent()
+    ids = [x[0] for x in events]
+    while EVENTID in ids:
+        EVENTID += 1
     return EVENTID
+
 
 # Test db connection
 def get_db():
@@ -148,7 +155,7 @@ def incidentPanel():
     # generate HTML string
     htmlString = ""
     for i in range(len(mainList)):
-        htmlString += "\t<tr class=\"data\">"
+        htmlString += "\n\t<tr class=\"data\">"
         htmlString += "\n\t\t<td>" + mainList[i][0]
         htmlString += "</td>\n\t\t<td>" + mainList[i][1]
         htmlString += "</td>\n\t\t<td>" + mainList[i][2]
@@ -157,7 +164,7 @@ def incidentPanel():
         htmlString += "</td>\n\t</tr>"
     
 	# append this htmlString to the HTML table.
-    htmlString = extends + "\n" + block + "\n" + htmlString + "\n" + endblock
+    htmlString = extends + "\n" + block + htmlString + "\n" + endblock
 
     # overwrites existing html file
     with open("Prototype/templates/IncidentTable.html", "w") as f:
