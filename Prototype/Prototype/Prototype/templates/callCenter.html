@@ -32,33 +32,33 @@
             <br />
 
             Operator ID:
-            <input type="text" name="id" />
+            <input type="text" name="id" required/>
             Operator Name:
-            <input type="text" name="name" />
+            <input type="text" name="name" required/>
             Victim Name:
-            <input type="text" name="vName" /><br />
+            <input type="text" name="vName" pattern="[A-Za-z]+" required/><br />
             <br /><br /><br />
             Address:
-            <input type="text" name="address"<br />
+            <input type="text" name="address" required<br />
             City:
-            <input type="text" name="city"<br />
+            <input type="text" name="city" required<br />
             State:
-            <input type="text" name="state"<br />
+            <input type="text" name="state" required<br />
             Zip Code:
-            <input type="text" name="zipCode"<br />
+            <input type="text" name="zipCode" required<br />
             <br /><br /><br />
 
             Emergency:
-            <input type="text" name="emergency"<br />
+            <input type="text" name="emergency" required<br />
 
             Phone Number:
-            <input type=" text" name="phoneNumber" />
+            <input type="text" name="phoneNumber" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required/>
             Urgency:
             <input type="radio" name="Urgency" value="1" /> 1
             <input type="radio" name="Urgency" value="2" /> 2
             <input type="radio" name="Urgency" value="3" /> 3
             <input type="radio" name="Urgency" value="4" /> 4
-            <input type="radio" name="Urgency" value="5" /> 5
+            <input type="radio" name="Urgency" value="5" required/> 5
             <br /><br />
 
             <br /><br />
