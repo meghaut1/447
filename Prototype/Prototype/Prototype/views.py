@@ -128,10 +128,8 @@ def pullEvent():
     conn.close()
     return list(row)
 
-# Printing Call information to make missions
-@app.route('/incidentPanel')
-def incidentPanel():
-    # Lists will all have the same length, can combine the indexs to display all the important information
+def genTable(var):
+     # Lists will all have the same length, can combine the indexs to display all the important information
     victims = pullVictim()
     calls = pullCall()
     events = pullEvent()
@@ -139,33 +137,41 @@ def incidentPanel():
     extends = '{% extends "IncidentPanel.html" %}'
     block = '{% block table %}'
     endblock = '{% endblock %}'
-	# create a main list.
+	  # create a main list.
     mainList = []
 
     # get variables needed for HTML string
     for i in range(len(victims)):
+        id = events[i][0]
         timestamp = calls[i][2] + " " + calls[i][1]
         emergency = calls[i][3]
         address = victims[i][1]
         phone = victims[i][5]
         urgency = events[i][2]
-        subList = [timestamp, emergency, address, phone, urgency]
+        subList = [id, timestamp, emergency, address, phone, urgency]
         mainList.append(subList)
     
     # generate HTML string
     htmlString = ""
     for i in range(len(mainList)):
         htmlString += "\n\t<tr class=\"data\">"
-        htmlString += "\n\t\t<td>" + mainList[i][0]
+        htmlString += "\n\t\t<td>" + str(mainList[i][0])
         htmlString += "</td>\n\t\t<td>" + mainList[i][1]
         htmlString += "</td>\n\t\t<td>" + mainList[i][2]
         htmlString += "</td>\n\t\t<td>" + mainList[i][3]
-        htmlString += "</td>\n\t\t<td>" + str(mainList[i][4])
+        htmlString += "</td>\n\t\t<td>" + mainList[i][4]
+        htmlString += "</td>\n\t\t<td>" + str(mainList[i][5])
         htmlString += "</td>\n\t</tr>"
     
-	# append this htmlString to the HTML table.
+	  # append this htmlString to the HTML table.
     htmlString = extends + "\n" + block + htmlString + "\n" + endblock
+    return htmlString
 
+# Printing Call information to make missions
+@app.route('/incidentPanel')
+def incidentPanel():
+
+    htmlString = genTable(True)
     # overwrites existing html file
     with open("Prototype/templates/IncidentTable.html", "w") as f:
        f.write(htmlString)
