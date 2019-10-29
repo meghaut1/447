@@ -4,7 +4,7 @@ Routes and views for the flask application.
 # https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior
 # Use the above link if you would like to change the formatting of date or time
 from datetime import datetime
-from flask import render_template, g, request
+from flask import render_template, g, request, redirect, url_for
 from Prototype import app
 import sqlite3
 
@@ -31,26 +31,27 @@ def getEventID():
     return EVENTID
 
 
-# Test db connection
-def get_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = sqlite3.connect(DATABASE)
-        g._database.close()
-    return db
-
 # run ipconfig in terminal then use the IPv4 address:5000 to access page
 @app.route('/')
-@app.route('/callCenter')
+def home():
+    return redirect(url_for('login'))
+
+@app.route('/login', methods=['GET','POST'])
+def login():
+    if request.method == 'POST':
+        id = request.form["id"]
+        return render_template("loginpage.html", var=False) # var used to render invalid id/password
+
+    return render_template("loginpage.html")
+
+@app.route('/callCenter', methods=['GET', 'POST'])
 def callCenter():
-    db = get_db() # test to connect to database. Error if it doesn't
-    db.close()
+    if request.method == 'POST':
+        getInfo()
     return render_template("callCenter.html")
 
 # gets input from HTML page
-@app.route('/', methods=['POST'])
 def getInfo():
-    print('here')
 
     # variables for the Operator
     operID = request.form['id']
@@ -94,7 +95,6 @@ def getInfo():
     cur.close()
     conn.close()
 
-    return callCenter()
 
 # Pulling data from db, returning a list
 def pullVictim():
