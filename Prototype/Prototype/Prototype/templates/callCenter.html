@@ -34,18 +34,18 @@
             Operator ID:
             <input type="text" name="id" required/>
             Operator Name:
-            <input type="text" name="name" required/>
+            <input type="text" name="name" pattern="[A-Za-z]+" required/>
             Victim Name:
             <input type="text" name="vName" pattern="[A-Za-z]+" required/><br />
             <br /><br /><br />
             Address:
             <input type="text" name="address" required<br />
             City:
-            <input type="text" name="city" required<br />
+            <input type="text" name="city" pattern="[A-Za-z]+" required<br />
             State:
-            <input type="text" name="state" required<br />
+            <input type="text" name="state" pattern="[A-Za-z]{2}"required<br />
             Zip Code:
-            <input type="text" name="zipCode" required<br />
+            <input type="text" name="zipCode" pattern="[0-9]{5}" required<br />
             <br /><br /><br />
 
             Emergency:
