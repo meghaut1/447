@@ -16,34 +16,52 @@
 </head>
 <body>
 
-    <div class="navbar">
-        <a class="active" href="incidentPanel">Incident Panel</a>
-        <!--<a href="#news">Mission Panel</a>-->
-        <a href="callCenter">Report an Incident</a>
-    </div>
+  <div class="navbar">
+    <a class="active" href="/incidentPanel">Incident Panel</a>
+    <!--<a href="#news">Mission Panel</a>-->
+    <a href="/callCenter">Report an Incident</a>
+  </div>
 
-    <h1 style="text-align: center;">Incident Panel</h1>
-    <br />
+  <h1 style="text-align: center;">Incident Panel</h1>
+  <br />
 
+  {% if var== false %}
+  <div class="buttonStyle">
+    <a href="/incidentPanel/create">Create a New Mission</a>
+  </div>
+  {% endif %}
+
+  {% if var== true %}
+  <div class="buttonStyle">
+    <a href="/incidentPanel">Cancel</a>
+  </div>
+  {% endif %}
+  <br /><br />
+  <form name="event" action="/incidentPanel" method="post">
     <table id="tbl_Incident" style="width: 85%; margin: 0px auto 50px auto; border: 1px solid #000000;">
-        <thead style="border: 1px solid #000000;">
-          <tr style="border: 1px solid #000000;">
-            <th class="columnHeader" style="width: 60px;">Incident ID</th>
-            <th class="columnHeader" style="width: 60px;">Timestamp</th>
-            <th class="columnHeader" style="width: 60px;">Type</th>
-            <th class="columnHeader" style="width: 100px;">Address</th>
-            <th class="columnHeader" style="width: 100px;">Phone Number</th>
-            <th class="columnHeader" style="width: 70px;">Urgency</th>
-          </tr>
-        </thead>
-        <tbody>
-            {% block table %}{% endblock %}
-        </tbody>
+      <thead style="border: 1px solid #000000;">
+        <tr style="border: 1px solid #000000;">
+          {% if var == True %}
+          <th class="columnHeader" style="width: 40px;"></th>
+          {% endif %}
+          <th class="columnHeader" style="width: 60px;">Incident ID</th>
+          <th class="columnHeader" style="width: 60px;">Timestamp</th>
+          <th class="columnHeader" style="width: 60px;">Type</th>
+          <th class="columnHeader" style="width: 100px;">Address</th>
+          <th class="columnHeader" style="width: 100px;">Phone Number</th>
+          <th class="columnHeader" style="width: 70px;">Urgency</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% block table %}{% endblock %}
+      </tbody>
     </table>
 
+    {% if var== true %}
     <div class="buttonStyle">
-        <a href="#newmission">Create a new Mission</a>
+      <input type="submit" value="Generate Mission" />
     </div>
-
+    {% endif %}
+  </form>
 </body>
 </html>

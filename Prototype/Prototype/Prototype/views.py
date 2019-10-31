@@ -152,10 +152,22 @@ def genTable():
     return id, timestamp, emergency, address, phone, urgency
 
 # Printing Call information to make missions
-@app.route('/incidentPanel')
+@app.route('/incidentPanel', methods=['POST', 'GET'])
 def incidentPanel():
+    
+    if request.method == 'POST':
+      ids = request.form.getlist('id')
+      if ids == []:
+        return redirect(url_for('createMission'))
 
     id, timestamp, emergency, address, phone, urgency = genTable()
     length = len(id)
 
-    return render_template('IncidentTable.html', length=length, id=id, timestamp=timestamp, emergency=emergency, address=address, phone=phone, urgency=urgency)
+    return render_template('IncidentTable.html', var=False, length=length, id=id, timestamp=timestamp, emergency=emergency, address=address, phone=phone, urgency=urgency)
+
+@app.route('/incidentPanel/create')
+def createMission():
+   id, timestamp, emergency, address, phone, urgency = genTable()
+   length = len(id)
+
+   return render_template('IncidentTable.html', var=True, length=length, id=id, timestamp=timestamp, emergency=emergency, address=address, phone=phone, urgency=urgency)
