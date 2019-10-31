@@ -128,52 +128,34 @@ def pullEvent():
     conn.close()
     return list(row)
 
-def genTable(var):
+def genTable():
      # Lists will all have the same length, can combine the indexs to display all the important information
     victims = pullVictim()
     calls = pullCall()
     events = pullEvent()
 
-    extends = '{% extends "IncidentPanel.html" %}'
-    block = '{% block table %}'
-    endblock = '{% endblock %}'
-	  # create a main list.
-    mainList = []
+    id = []
+    timestamp = []
+    emergency = []
+    address = []
+    phone = []
+    urgency = []
 
-    # get variables needed for HTML string
     for i in range(len(victims)):
-        id = events[i][0]
-        timestamp = calls[i][2] + " " + calls[i][1]
-        emergency = calls[i][3]
-        address = victims[i][1]
-        phone = victims[i][5]
-        urgency = events[i][2]
-        subList = [id, timestamp, emergency, address, phone, urgency]
-        mainList.append(subList)
-    
-    # generate HTML string
-    htmlString = ""
-    for i in range(len(mainList)):
-        htmlString += "\n\t<tr class=\"data\">"
-        htmlString += "\n\t\t<td>" + str(mainList[i][0])
-        htmlString += "</td>\n\t\t<td>" + mainList[i][1]
-        htmlString += "</td>\n\t\t<td>" + mainList[i][2]
-        htmlString += "</td>\n\t\t<td>" + mainList[i][3]
-        htmlString += "</td>\n\t\t<td>" + mainList[i][4]
-        htmlString += "</td>\n\t\t<td>" + str(mainList[i][5])
-        htmlString += "</td>\n\t</tr>"
-    
-	  # append this htmlString to the HTML table.
-    htmlString = extends + "\n" + block + htmlString + "\n" + endblock
-    return htmlString
+        id.append(events[i][0])
+        timestamp.append(calls[i][2] + " " + calls[i][1])
+        emergency.append(calls[i][3])
+        address.append(victims[i][1])
+        phone.append(victims[i][5])
+        urgency.append(events[i][2])
+
+    return id, timestamp, emergency, address, phone, urgency
 
 # Printing Call information to make missions
 @app.route('/incidentPanel')
 def incidentPanel():
 
-    htmlString = genTable(True)
-    # overwrites existing html file
-    with open("Prototype/templates/IncidentTable.html", "w") as f:
-       f.write(htmlString)
+    id, timestamp, emergency, address, phone, urgency = genTable()
+    length = len(id)
 
-    return render_template('IncidentTable.html')
+    return render_template('IncidentTable.html', length=length, id=id, timestamp=timestamp, emergency=emergency, address=address, phone=phone, urgency=urgency)

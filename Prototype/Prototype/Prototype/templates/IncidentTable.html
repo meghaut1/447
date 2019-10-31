@@ -1,11 +1,13 @@
 {% extends "IncidentPanel.html" %}
 {% block table %}
-	<tr class="data">
-		<td>2001</td>
-		<td>15:15 16/10/19</td>
-		<td>Tree on house</td>
-		<td>4455 Market St</td>
-		<td>301-444-3322</td>
-		<td>5</td>
-	</tr>
+    {% for i in range(length) %}
+    <tr class="data">
+        <td>{{id[i]}}</td>
+        <td>{{timestamp[i]}}</td>
+        <td>{{emergency[i]}}</td>
+        <td>{{address[i]}}</td>
+        <td>{{phone[i]}}</td>
+        <td>{{urgency[i]}}</td>
+    </tr>
+    {% endfor %}
 {% endblock %}
