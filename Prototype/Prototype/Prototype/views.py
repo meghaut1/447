@@ -171,3 +171,8 @@ def createMission():
    length = len(id)
 
    return render_template('IncidentTable.html', var=True, length=length, id=id, timestamp=timestamp, emergency=emergency, address=address, phone=phone, urgency=urgency)
+
+def returnMission():
+    # query the event table by zipcode
+    # return results in a list of strings
+    # print strings in mission table
