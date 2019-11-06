@@ -46,6 +46,7 @@ def login():
 
 @app.route('/callCenter', methods=['GET', 'POST'])
 def callCenter():
+    returnMission()
     if request.method == 'POST':
         getInfo()
     return render_template("callCenter.html")
@@ -176,3 +177,26 @@ def returnMission():
     # query the event table by zipcode
     # return results in a list of strings
     # print strings in mission table
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+    # Get all zipCodes
+    zips = cur.execute('SELECT DISTINCT victim.zipCode from victim inner join event on victim.name = call.name inner join call on event.callID = call.callID')
+    zips = cur.fetchall()
+    
+    # Get all names  
+    names = cur.execute('SELECT name FROM victim WHERE zipCode = (?)', zips[0])
+    names = cur.fetchall()
+
+    # 3 way inner join using name
+    eventInfo = cur.execute('SELECT DISTINCT event.eventID, call.name, call.date, call.time, call.emergency, victim.address, victim.phone, event.urgency from victim inner join event on victim.name = call.name inner join call on event.callID = call.callID WHERE event.vname = (?)', names[0])
+    eventInfo = cur.fetchall()
+    
+    print(zips)
+    print(names)
+    print(eventInfo)
+   
+    conn.commit()
+    cur.close()
+    conn.close()
+    
+    #return list(row)
