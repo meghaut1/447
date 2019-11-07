@@ -46,7 +46,7 @@ def login():
 
 @app.route('/callCenter', methods=['GET', 'POST'])
 def callCenter():
-    returnMission()
+    #returnMission() # used for testing
     if request.method == 'POST':
         getInfo()
     return render_template("callCenter.html")
@@ -173,30 +173,51 @@ def createMission():
 
    return render_template('IncidentTable.html', var=True, length=length, id=id, timestamp=timestamp, emergency=emergency, address=address, phone=phone, urgency=urgency)
 
+
+def getZips():
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+    # Get all zipCodes
+    zips = cur.execute('SELECT DISTINCT victim.zipCode from victim inner join event on victim.name = call.name inner join call on event.callID = call.callID')
+    zips = cur.fetchall()
+
+    conn.commit()
+    cur.close()
+    conn.close()
+    return zips
+
 def returnMission():
     # query the event table by zipcode
     # return results in a list of strings
     # print strings in mission table
     conn = sqlite3.connect("callCenter.db")
     cur = conn.cursor()
+    missions = []
     # Get all zipCodes
-    zips = cur.execute('SELECT DISTINCT victim.zipCode from victim inner join event on victim.name = call.name inner join call on event.callID = call.callID')
-    zips = cur.fetchall()
+    #zips = cur.execute('SELECT DISTINCT victim.zipCode from victim inner join event on victim.name = call.name inner join call on event.callID = call.callID')
+    #zips = cur.fetchall()
+    zips = getZips()
+    # Get all names
+    zipLen = len(zips)
+    missionIndex = 0
+    for i in range(zipLen):
+        names = cur.execute('SELECT name FROM victim WHERE zipCode = (?)', zips[i])
+        names = cur.fetchall()
+        nameLen = len(names)
+        
+        for j in range(nameLen):
+            # 3 way inner join using name
+            eventInfo = cur.execute('SELECT DISTINCT event.eventID, call.name, call.date, call.time, call.emergency, victim.address, victim.phone, event.urgency from victim inner join event on victim.name = call.name inner join call on event.callID = call.callID WHERE event.vname = (?)', names[j])
+            eventInfo = cur.fetchall()
+            missions.append([])
+            missions[missionIndex].append(zips[i])
+            missions[missionIndex].append(eventInfo)
+            missionIndex += 1
     
-    # Get all names  
-    names = cur.execute('SELECT name FROM victim WHERE zipCode = (?)', zips[0])
-    names = cur.fetchall()
-
-    # 3 way inner join using name
-    eventInfo = cur.execute('SELECT DISTINCT event.eventID, call.name, call.date, call.time, call.emergency, victim.address, victim.phone, event.urgency from victim inner join event on victim.name = call.name inner join call on event.callID = call.callID WHERE event.vname = (?)', names[0])
-    eventInfo = cur.fetchall()
-    
-    print(zips)
-    print(names)
-    print(eventInfo)
+    print(missions)
    
     conn.commit()
     cur.close()
     conn.close()
-    
-    #return list(row)
+    # returns 2D list; 1st index of an element is the zipcode, 2nd is the event 
+    return missions
