@@ -46,7 +46,7 @@ def login():
 
 @app.route('/callCenter', methods=['GET', 'POST'])
 def callCenter():
-    #returnMission() # used for testing
+    returnMission() # used for testing
     if request.method == 'POST':
         getInfo()
     return render_template("callCenter.html")
@@ -221,7 +221,7 @@ def returnMission():
             missions[missionIndex].append(eventInfo)
             missionIndex += 1
     
-    #print(missions)
+    print(missions)
     conn.commit()
     cur.close()
     conn.close()
