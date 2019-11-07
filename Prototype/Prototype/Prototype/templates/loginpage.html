@@ -1,21 +1,18 @@
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-<link rel = "stylesheet" type = "text/css" href = "{{ url_for('static', filename='content/loginpcss.css') }}" />
+<link rel = "stylesheet" type = "text/css" href = "loginpcss.css" />
 
 <div class="login-page">
   <div class="form">
-    <form class="register-form" method="post">
-      <input type="text" name="name" placeholder="name" pattern="[A-Za-z]+" required/>
-      <input type="password" name="password" placeholder="password" required/>
-      <input type="text" name="email" placeholder="email address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required/>
+    <form class="register-form">
+      <input type="text" placeholder="Name"/>
+      <input type="text" placeholder="Unique ID"/>
+      <input type="text" placeholder="Email Address"/>
       <button>create</button>
       <p class="message">Already registered? <a href="#">Sign In</a></p>
     </form>
-    <form class="login-form" method="post">
-      <input type="text" name="id" placeholder="Unique ID" required />
-      <input type="password" name="password" placeholder="password" required />
-      {% if var == false %}
-      <p> <font color="red"> Invalid username or password </font></p>
-      {% endif %}
+    <form class="login-form">
+      <input type="text" placeholder="Unique ID"/>
+      <input type="text" placeholder="Name"/>
       <button>login</button>
       <p class="message">Not registered? <a href="#">Create an account</a></p>
     </form>
