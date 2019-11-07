@@ -180,7 +180,9 @@ def getZips():
     # Get all zipCodes
     zips = cur.execute('SELECT DISTINCT victim.zipCode from victim inner join event on victim.name = call.name inner join call on event.callID = call.callID')
     zips = cur.fetchall()
-
+    #list(zips)
+    #for i in range(len(zips)):
+    #    zips[i] = zips[i][0]
     conn.commit()
     cur.close()
     conn.close()
@@ -194,28 +196,32 @@ def returnMission():
     cur = conn.cursor()
     missions = []
     # Get all zipCodes
-    #zips = cur.execute('SELECT DISTINCT victim.zipCode from victim inner join event on victim.name = call.name inner join call on event.callID = call.callID')
-    #zips = cur.fetchall()
     zips = getZips()
-    # Get all names
     zipLen = len(zips)
+
+    # Get all names    
     missionIndex = 0
     for i in range(zipLen):
+        # Returning names for the i'th zipcode
         names = cur.execute('SELECT name FROM victim WHERE zipCode = (?)', zips[i])
         names = cur.fetchall()
         nameLen = len(names)
         
+        # Assigning zipcode with event info into a 2D list
         for j in range(nameLen):
             # 3 way inner join using name
             eventInfo = cur.execute('SELECT DISTINCT event.eventID, call.name, call.date, call.time, call.emergency, victim.address, victim.phone, event.urgency from victim inner join event on victim.name = call.name inner join call on event.callID = call.callID WHERE event.vname = (?)', names[j])
             eventInfo = cur.fetchall()
+            # Adding new index for 2D list
             missions.append([])
-            missions[missionIndex].append(zips[i])
+            # Converting zipcode from tuple to int
+            zip = zips[i][0]
+            # Appending zipcode and event 
+            missions[missionIndex].append(zip)
             missions[missionIndex].append(eventInfo)
             missionIndex += 1
     
-    print(missions)
-   
+    #print(missions)
     conn.commit()
     cur.close()
     conn.close()
