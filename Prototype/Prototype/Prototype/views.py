@@ -159,6 +159,22 @@ def incidentPanel():
     
     if request.method == 'POST':
       ids = request.form.getlist('id')
+      edit = request.form.getlist('edit')
+      if len(edit) > 0 and edit[0] == 'edited':
+        id = request.form['edit']
+        e = request.form['emergency']
+        a = request.form['address']
+        p = request.form['phone']
+        u = request.form['urgency']
+        
+        # testing
+        test = [e, a, p, u]
+        print(test)
+        # then insert edits into database
+
+      if len(edit) > 0 and edit[0].isnumeric():
+        return editTable(edit[0])
+
       if ids == []:
         return redirect(url_for('createMission'))
 
@@ -167,6 +183,18 @@ def incidentPanel():
 
     return render_template('IncidentTable.html', var=False, length=length, id=id, timestamp=timestamp, emergency=emergency, address=address, phone=phone, urgency=urgency)
 
+@app.route('/incidentPanel/edit', methods=['POST', 'GET'])
+def editTable(editID):
+
+    id, timestamp, emergency, address, phone, urgency = genTable()
+    i =  id.index(int(editID))
+    e = emergency[i]
+    a = address[i]
+    p = phone[i]
+    u = urgency[i]
+    return render_template('editTable.html', emergency=e, address=a, phone=p, urgency=u, id=i)
+
+
 @app.route('/incidentPanel/create')
 def createMission():
    id, timestamp, emergency, address, phone, urgency = genTable()
@@ -174,6 +202,19 @@ def createMission():
 
    return render_template('IncidentTable.html', var=True, length=length, id=id, timestamp=timestamp, emergency=emergency, address=address, phone=phone, urgency=urgency)
 
+@app.route('/deploymentPanel')
+def deploymentPanel():
+    missions = returnMission()
+    zip = [z[0] for z in missions]
+    emergency = [e[1][0][4] for e in missions]
+    team = []
+    status = []
+    length = len(zip)
+    for i in range(len(zip)):
+        team.append(i)
+        status.append("Incomplete")
+
+    return render_template('deploymentTable.html', length=length, zip=zip, emergency=emergency, team=team, status=status)
 
 def getZips():
     conn = sqlite3.connect("callCenter.db")
