@@ -46,7 +46,8 @@ def login():
 
 @app.route('/callCenter', methods=['GET', 'POST'])
 def callCenter():
-    returnMission() # used for testing
+    #returnMission() # used for testing
+    deleteEvent(2002)
     if request.method == 'POST':
         getInfo()
     return render_template("callCenter.html")
@@ -221,9 +222,27 @@ def returnMission():
             missions[missionIndex].append(eventInfo)
             missionIndex += 1
     
-    print(missions)
+    #print(missions)
     conn.commit()
     cur.close()
     conn.close()
     # returns 2D list; 1st index of an element is the zipcode, 2nd is the event 
     return missions
+
+def deleteEvent(eventID):
+    # Deletes the event with the given eventID
+    # Used for when user makes an error when typing an event
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+
+    event = cur.execute('SELECT * FROM event WHERE eventID = ?', (eventID,))
+    event = cur.fetchall()
+    print(event)
+    print(event[0][0])
+    cur.execute('DELETE FROM victim WHERE name = ?', (event[0][3],))
+    cur.execute('DELETE FROM call WHERE callID = ?', (event[0][1],))
+    cur.execute('DELETE FROM event WHERE eventID = ?', (event[0][0],))
+  
+    conn.commit()
+    cur.close()
+    conn.close()
