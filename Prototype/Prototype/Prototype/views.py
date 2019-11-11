@@ -228,7 +228,7 @@ def getZips():
     # Get all zipCodes
     zips = cur.execute('SELECT DISTINCT victim.zipCode from victim inner join event on victim.name = call.name inner join call on event.callID = call.callID')
     zips = cur.fetchall()
-    #list(zips)
+    #  list(zips)
     #for i in range(len(zips)):
     #    zips[i] = zips[i][0]
     conn.commit()
