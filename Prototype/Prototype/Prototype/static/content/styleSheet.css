@@ -1,7 +1,9 @@
 ﻿body {
-  /* Uncomment this to enable scrolling and zooming
+    /* Uncomment this to enable scrolling and zooming
   touch-action: manipulation;
   */
+    background-color: #191a1b;
+    color: #f0ebe2;
 }
 
 .navbar {

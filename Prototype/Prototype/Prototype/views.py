@@ -47,7 +47,7 @@ def login():
 @app.route('/callCenter', methods=['GET', 'POST'])
 def callCenter():
     #returnMission() # used for testing
-    deleteEvent(2002)
+    #deleteEvent(2002)
     if request.method == 'POST':
         getInfo()
     return render_template("callCenter.html")
@@ -202,19 +202,25 @@ def createMission():
 
    return render_template('IncidentTable.html', var=True, length=length, id=id, timestamp=timestamp, emergency=emergency, address=address, phone=phone, urgency=urgency)
 
-@app.route('/deploymentPanel')
+@app.route('/deploymentPanel', methods=['POST', 'GET'])
 def deploymentPanel():
+    if request.method == 'POST':
+        id = request.form['delete']
+        deleteEvent(id)
+
     missions = returnMission()
     zip = [z[0] for z in missions]
     emergency = [e[1][0][4] for e in missions]
     team = []
     status = []
     length = len(zip)
+    id = [i[1][0][0] for i in missions]
+
     for i in range(len(zip)):
         team.append(i)
         status.append("Incomplete")
 
-    return render_template('deploymentTable.html', length=length, zip=zip, emergency=emergency, team=team, status=status)
+    return render_template('deploymentTable.html', length=length, zip=zip, emergency=emergency, team=team, status=status, id=id)
 
 def getZips():
     conn = sqlite3.connect("callCenter.db")

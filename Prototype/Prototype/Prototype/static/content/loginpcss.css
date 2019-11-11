@@ -8,7 +8,7 @@
 .form {
   position: relative;
   z-index: 1;
-  background: #FFFFFF;
+  background: #333;
   max-width: 360px;
   margin: 0 auto 100px;
   padding: 45px;
@@ -18,7 +18,7 @@
 .form input {
   font-family: "Roboto", sans-serif;
   outline: 0;
-  background: #f2f2f2;
+  background: #FFFFFF;
   width: 100%;
   border: 0;
   margin: 0 0 15px;
@@ -26,30 +26,30 @@
   box-sizing: border-box;
   font-size: 14px;
 }
-.form button {
-  font-family: "Roboto", sans-serif;
-  text-transform: uppercase;
-  outline: 0;
-  background: #4CAF50;
-  width: 100%;
-  border: 0;
-  padding: 15px;
-  color: #FFFFFF;
-  font-size: 14px;
-  -webkit-transition: all 0.3 ease;
-  transition: all 0.3 ease;
-  cursor: pointer;
-}
-.form button:hover,.form button:active,.form button:focus {
-  background: #43A047;
-}
+    .form button {
+        font-family: "Roboto", sans-serif;
+        text-transform: uppercase;
+        outline: 0;
+        background: #992200;
+        width: 100%;
+        border: 0;
+        padding: 15px;
+        color: #FFFFFF;
+        font-size: 14px;
+        -webkit-transition: all 0.3 ease;
+        transition: all 0.3 ease;
+        cursor: pointer;
+    }
+    .form button:hover, .form button:active, .form button:focus {
+        background: #992200;
+    }
 .form .message {
   margin: 15px 0 0;
   color: #b3b3b3;
   font-size: 12px;
 }
 .form .message a {
-  color: #4CAF50;
+  color: #992200;
   text-decoration: none;
 }
 .form .register-form {
@@ -89,11 +89,11 @@
   color: #EF3B3A;
 }
 body {
-  background: #f2f2f2; /* fallback for old browsers */
-  background: -webkit-linear-gradient(right, #f2f2f2, #f5f5f5);
-  background: -moz-linear-gradient(right, #f2f2f2, #f5f5f5);
-  background: -o-linear-gradient(right, #f2f2f2, #f5f5f5);
-  background: linear-gradient(to left, #f2f2f2, #f5f5f5);
+  background: #222; /* fallback for old browsers */
+  background: -webkit-linear-gradient(right, #222, #555);
+  background: -moz-linear-gradient(right, #222, #555);
+  background: -o-linear-gradient(right, #222, #555);
+  background: linear-gradient(to left, #222, #555);
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;      

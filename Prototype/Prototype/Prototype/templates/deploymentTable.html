@@ -1,0 +1,12 @@
+﻿{% extends "deploymentPanel.html" %}
+{% block table %}
+    {% for i in range(length) %}
+<tr class="data">
+    <td>{{zip[i]}}</td>
+    <td>{{emergency[i]}}</td>
+    <td>{{team[i]}}</td>
+    <td>{{status[i]}}</td>
+    <td><button type="submit" name="delete" value="{{id[i]}}">Delete</button></td>
+</tr>
+    {% endfor %}
+{% endblock %}

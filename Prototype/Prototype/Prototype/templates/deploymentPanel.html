@@ -1,106 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
- <link rel = "stylesheet"
-   type = "text/css"
-   href = "allpages.css" />
-
+<html>
 <head>
+    <meta charset="utf-8" />
+    <title>_447___HTML_Test</title>
+    <link href="{{ url_for('static', filename='content/styleSheet.css') }}" rel="stylesheet" />
 
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+    <style>
+        .columnHeader {
+            font-family: "Arial, Helvetica, sans-serif";
+        }
 
-  <title>Deployment Panel</title>
-
-  <!-- Custom fonts for this template-->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-
-  <!-- Page level plugin CSS-->
-  <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
-
-  <!-- Custom styles for this template-->
-  <link href="css/sb-admin.css" rel="stylesheet">
-
+        .data {
+            text-align: center;
+        }
+    </style>
 </head>
+<body>
 
-<body id="page-top">
-
-<!-- Nav bar -->
-<div class="navbar">
-    <a href="/incidentPanel">Incident Panel</a>
-    <!--<a class="active" href="#news">Mission Panel</a>-->
-    <a href="/callCenter">Report an Incident</a>
-  </div>
-<!-- End of nav bar -->
-
-
-<!-- Will have to use javascript or something to pull in the data from the database -->
-        <!-- DataTables Example -->
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-table"></i>
-            Data Table Example</div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Victim Assigned</th>
-                    <th>Time Deployed</th>
-					
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-					
-                    <th><br>Tiger Nixon</th>
-                    <th><br>Bobby Wilson</th>
-                    <th><br>11:30:43</th>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-        </div>
-
-
-      </div>
-
+    <div class="navbar">
+        <a href="/incidentPanel">Incident Panel</a>
+        <a class="active" href="/deploymentPanel">Mission Panel</a>
+        <a href="/callCenter">Report an Incident</a>
     </div>
-    <!-- /.content-wrapper -->
 
-  </div>
-  <!-- /#wrapper -->
+    <h1 style="text-align: center;">Deployment Panel</h1>
+    <br />
 
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-
-
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Page level plugin JavaScript-->
-  <script src="vendor/datatables/jquery.dataTables.js"></script>
-  <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin.min.js"></script>
-
-  <!-- Demo scripts for this page-->
-  <script src="js/demo/datatables-demo.js"></script>
+    <br /><br />
+          <form name="event" action="/deploymentPanel" method="post">
+              <table id="tbl_Mission" style="width: 85%; margin: 0px auto 50px auto; border: 1px solid #000000;">
+                  <thead>
+                      <tr>
+                          <th>Zip Code</th>
+                          <th>Tasks</th>
+                          <th>Assigned to</th>
+                          <th>Status</th>
+                          <th></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% block table %}{% endblock %}
+                  </tbody>
+              </table>
+           </form>
 
 </body>
-
 </html>
-
-
