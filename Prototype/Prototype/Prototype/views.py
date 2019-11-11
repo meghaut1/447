@@ -46,8 +46,10 @@ def login():
 
 @app.route('/callCenter', methods=['GET', 'POST'])
 def callCenter():
-    #returnMission() # used for testing
-    #deleteEvent(2002)
+    print(returnMission()) # used for testing
+    deleteEvent(2001)
+    print('here')
+    print(returnMission())
     if request.method == 'POST':
         getInfo()
     return render_template("callCenter.html")
