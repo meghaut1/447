@@ -93,7 +93,7 @@ def getInfo():
     cur.execute('''INSERT INTO Call(callID, date, time, emergency, operID, name) VALUES (?, ?, ?, ?, ?, ?)''', (callID, date, time, emergency, operID, vName))
     # Creating Event row
     print(str(eventID) + " " + str(callID) + " " + str(urgency))
-    cur.execute('''INSERT INTO Event(eventID, callID, urgency) VALUES (?, ?, ?)''', (eventID, callID, urgency))
+    cur.execute('''INSERT INTO Event(eventID, callID, urgency, vname) VALUES (?, ?, ?, ?)''', (eventID, callID, urgency, vName))
     # Commit queries and exit db
     conn.commit()
     cur.close()
