@@ -204,7 +204,8 @@ def editTable(editID):
     a = address[i]
     p = phone[i]
     u = urgency[i]
-    return render_template('editTable.html', emergency=e, address=a, phone=p, urgency=u, id=i)
+    editID = int(editID)
+    return render_template('editTable.html', emergency=e, address=a, phone=p, urgency=u, id=editID)
 
 
 @app.route('/incidentPanel/create')
