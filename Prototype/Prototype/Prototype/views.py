@@ -38,10 +38,16 @@ def home():
 
 @app.route('/login', methods=['GET','POST'])
 def login():
-    if request.method == 'POST':
-        id = request.form["id"]
+    if request.method == 'GET':
+        #id = request.form["id"]
         return render_template("loginpage.html", var=False) # var used to render invalid id/password
-
+    if request.method == 'POST':
+        if request.form['password'] == 'password' and request.form['username'] == 'officer':
+            #session['logged_in'] = True
+            return render_template("callCenter.html")
+        else:
+            flash('wrong password!')
+            return render_template("loginpage.html")
     return render_template("loginpage.html")
 
 @app.route('/callCenter', methods=['GET', 'POST'])
