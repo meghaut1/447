@@ -1,12 +1,17 @@
 ﻿{% extends "deploymentPanel.html" %}
 {% block table %}
     {% for i in range(length) %}
-<tr class="data">
-    <td>{{zip[i]}}</td>
-    <td>{{emergency[i]}}</td>
-    <td>{{team[i]}}</td>
-    <td>{{status[i]}}</td>
-    <td><button type="submit" name="delete" value="{{id[i]}}">Delete</button></td>
-</tr>
+    <tr class="data">
+        <td>{{zip[i]}}</td>
+        <td>{{emergency[i]}}</td>
+        <td>{{team[i]}}</td>
+        <td>{{status[i]}}</td>
+        <td><button type="submit" name="delete" value="{{id[i]}}" style="cursor: pointer; background-color: transparent; border: 0px; width: 24px; height: 24px;">
+                <svg viewBox="0 0 24 24" style="width:20px; height: 20px;">
+                    <path fill="#FFF" d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
+                </svg>
+            </button>
+        </td>
+    </tr>
     {% endfor %}
 {% endblock %}
