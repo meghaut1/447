@@ -58,6 +58,7 @@ def login():
         usernameReg = request.form['usernameReg'] # Registering User Username
         IDReg = request.form['IDReg'] # Registering User ID
         passwordReg = request.form['passwordReg'] # Registering User Password
+        userTypeReg = request.form['userTypeReg'] # Registering User UserType
 
         #userTEST = testUser(username)
         userTest = True
@@ -65,15 +66,18 @@ def login():
         userRegPass = True
         userRegID = True
         userRegPass = True
+        userTypeReg = True
 
         if  userTest == True:  
             if userPass == True:
+                #Possible another if for determing what page to go for each user
             #session['logged_in'] = True
                 return redirect(url_for('callCenter'))
         if userReg == True:
             if userRegPass == True:
                 if userRegID == True:
-                    return redirect(url_for('login'))
+                    if userTypeReg == True:
+                        return redirect(url_for('login'))
         else:
             flash('wrong password!')
             return redirect(url_for("loginpage.html"))
