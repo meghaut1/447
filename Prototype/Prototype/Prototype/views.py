@@ -53,12 +53,30 @@ def login():
         #id = request.form["id"]
         return render_template("loginpage.html", var=False) # var used to render invalid id/password
     if request.method == 'POST':
-        if request.form['password'] == 'password' and request.form['username'] == 'officer':
+        id = request.form['password'] # Existing User Password
+        username = request.form['username'] # Existing User Username
+        usernameReg = request.form['usernameReg'] # Registering User Username
+        IDReg = request.form['IDReg'] # Registering User ID
+        passwordReg = request.form['passwordReg'] # Registering User Password
+
+        #userTEST = testUser(username)
+        userTest = True
+        userPass = True
+        userRegPass = True
+        userRegID = True
+        userRegPass = True
+
+        if  userTest == True:  
+            if userPass == True:
             #session['logged_in'] = True
-            return redirect(url_for('callCenter'))
+                return redirect(url_for('callCenter'))
+        if userReg == True:
+            if userRegPass == True:
+                if userRegID == True:
+                    return redirect(url_for('login'))
         else:
             flash('wrong password!')
-            return render_template("loginpage.html")
+            return redirect(url_for("loginpage.html"))
     return render_template("loginpage.html")
 
 @app.route('/callCenter', methods=['GET', 'POST'])
