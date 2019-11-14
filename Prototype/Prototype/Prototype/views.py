@@ -44,7 +44,7 @@ def login():
     if request.method == 'POST':
         if request.form['password'] == 'password' and request.form['username'] == 'officer':
             #session['logged_in'] = True
-            return render_template("callCenter.html")
+            return redirect(url_for('callCenter'))
         else:
             flash('wrong password!')
             return render_template("loginpage.html")
