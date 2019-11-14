@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Prototype\callCenter.db" />
+    <Content Include="Prototype\logins.db" />
     <Content Include="Prototype\static\content\loginpcss.css" />
     <Content Include="Prototype\static\content\styleSheet.css" />
     <Content Include="Prototype\templates\callCenter.html" />
