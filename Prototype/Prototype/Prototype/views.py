@@ -11,6 +11,7 @@ import sqlite3
 DATABASE = 'callCenter.db'
 CALLID = 1000
 EVENTID = 2000
+VID = 3000
 
 # Generates new callID for Call table
 def getCallID():
@@ -30,6 +31,16 @@ def getEventID():
         EVENTID += 1
     return EVENTID
 
+# Generates new vID for Victim table
+def getVID():
+    global VID
+    victim = pullVictim()
+    ids = [x[6] for x in victim]
+    while VID in ids:
+        VID += 1
+    return VID
+
+
 
 # run ipconfig in terminal then use the IPv4 address:5000 to access page
 @app.route('/')
@@ -38,10 +49,16 @@ def home():
 
 @app.route('/login', methods=['GET','POST'])
 def login():
-    if request.method == 'POST':
-        id = request.form["id"]
+    if request.method == 'GET':
+        #id = request.form["id"]
         return render_template("loginpage.html", var=False) # var used to render invalid id/password
-
+    if request.method == 'POST':
+        if request.form['password'] == 'password' and request.form['username'] == 'officer':
+            #session['logged_in'] = True
+            return redirect(url_for('callCenter'))
+        else:
+            flash('wrong password!')
+            return render_template("loginpage.html")
     return render_template("loginpage.html")
 
 @app.route('/callCenter', methods=['GET', 'POST'])
@@ -76,7 +93,7 @@ def getInfo():
     phoneNumber = request.form['phoneNumber']
     emergency = request.form['emergency']
     callID = getCallID()
-
+    vID = getVID()
     # variables for Event
     urgency = request.form['Urgency']
     eventID = getEventID()
@@ -86,14 +103,14 @@ def getInfo():
     cur = conn.cursor()
 
     # Adding victim info
-    cur.execute('''INSERT INTO Victim (name, address, city, state, zipCode, phone) VALUES (?, ?, ?, ?, ?, ?)''', (vName, address, city, state, zipCode, phoneNumber))
+    cur.execute('''INSERT INTO Victim (name, address, city, state, zipCode, phone, vID) VALUES (?, ?, ?, ?, ?, ?, ?)''', (vName, address, city, state, zipCode, phoneNumber, vID))
     # Adding operator info
     cur.execute('''INSERT INTO CallOperator(operID, name) VALUES (?, ?)''', (operID, name))
     # Creating Call row
-    cur.execute('''INSERT INTO Call(callID, date, time, emergency, operID, name) VALUES (?, ?, ?, ?, ?, ?)''', (callID, date, time, emergency, operID, vName))
+    cur.execute('''INSERT INTO Call(callID, date, time, emergency, operID, vID) VALUES (?, ?, ?, ?, ?, ?)''', (callID, date, time, emergency, operID, vID))
     # Creating Event row
-    print(str(eventID) + " " + str(callID) + " " + str(urgency))
-    cur.execute('''INSERT INTO Event(eventID, callID, urgency) VALUES (?, ?, ?)''', (eventID, callID, urgency))
+    #print(str(eventID) + " " + str(callID) + " " + str(urgency))
+    cur.execute('''INSERT INTO Event(eventID, callID, urgency, vID) VALUES (?, ?, ?, ?)''', (eventID, callID, urgency, vID))
     # Commit queries and exit db
     conn.commit()
     cur.close()
@@ -110,7 +127,6 @@ def pullVictim():
     cur.close()
     conn.close()
     return list(row)
-
 
 def pullCall():
     conn = sqlite3.connect("callCenter.db")
@@ -194,7 +210,8 @@ def editTable(editID):
     a = address[i]
     p = phone[i]
     u = urgency[i]
-    return render_template('editTable.html', emergency=e, address=a, phone=p, urgency=u, id=i)
+    editID = int(editID)
+    return render_template('editTable.html', emergency=e, address=a, phone=p, urgency=u, id=editID)
 
 
 @app.route('/incidentPanel/create')
@@ -228,7 +245,8 @@ def getZips():
     conn = sqlite3.connect("callCenter.db")
     cur = conn.cursor()
     # Get all zipCodes
-    zips = cur.execute('SELECT DISTINCT victim.zipCode from victim inner join event on victim.name = call.name inner join call on event.callID = call.callID')
+    #zips = cur.execute('SELECT DISTINCT victim.zipCode from victim inner join event on victim.name = call.name inner join call on event.callID = call.callID')
+    zips = cur.execute('SELECT DISTINCT victim.zipCode from victim inner join event on victim.vID = call.vID inner join call on event.callID = call.callID')
     zips = cur.fetchall()
     #  list(zips)
     #for i in range(len(zips)):
@@ -253,14 +271,16 @@ def returnMission():
     missionIndex = 0
     for i in range(zipLen):
         # Returning names for the i'th zipcode
-        names = cur.execute('SELECT name FROM victim WHERE zipCode = (?)', zips[i])
-        names = cur.fetchall()
-        nameLen = len(names)
+        #names = cur.execute('SELECT name FROM victim WHERE zipCode = (?)', zips[i])
+        #names = cur.fetchall()
+        vIDs = cur.execute('SELECT vID FROM victim WHERE zipCode = (?)', zips[i])
+        vIDs = cur.fetchall()
+        vLen = len(vIDs)
         
         # Assigning zipcode with event info into a 2D list
-        for j in range(nameLen):
+        for j in range(vLen):
             # 3 way inner join using name
-            eventInfo = cur.execute('SELECT DISTINCT event.eventID, call.name, call.date, call.time, call.emergency, victim.address, victim.phone, event.urgency from victim inner join event on victim.name = call.name inner join call on event.callID = call.callID WHERE event.vname = (?)', names[j])
+            eventInfo = cur.execute('SELECT DISTINCT event.eventID, call.vID, call.date, call.time, call.emergency, victim.address, victim.phone, event.urgency from victim inner join event on victim.vID = call.vID inner join call on event.callID = call.callID WHERE event.vID = (?)', vIDs[j])
             eventInfo = cur.fetchall()
             # Adding new index for 2D list
             missions.append([])
@@ -286,9 +306,9 @@ def deleteEvent(eventID):
 
     event = cur.execute('SELECT * FROM event WHERE eventID = ?', (eventID,))
     event = cur.fetchall()
-    print(event)
-    print(event[0][0])
-    cur.execute('DELETE FROM victim WHERE name = ?', (event[0][3],))
+    #print(event)
+    #print(event[0][0])
+    cur.execute('DELETE FROM victim WHERE vID = ?', (event[0][3],))
     cur.execute('DELETE FROM call WHERE callID = ?', (event[0][1],))
     cur.execute('DELETE FROM event WHERE eventID = ?', (event[0][0],))
   
