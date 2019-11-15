@@ -14,6 +14,18 @@
         .data {
             text-align: center;
         }
+        .left{
+            float:left;
+            margin-left: 500px;
+        }
+        .right{
+
+            float:right;
+        }
+        .push{
+
+            padding-right: 175px;
+        }
     </style>
 
 </head>
@@ -25,35 +37,44 @@
         <a class="active" href="/callCenter">Report an Incident</a>
     </div>
     <br />
-
-    <h1 style="font-family: georgia" ; align="center">Call Center</h1> <div style="text-align:center;">
-        <h3 style="font-family: georgia" ; align="center"><em>Please enter in the following info:</em></h3>
+    
+    
+        
         <form name="event" action="callCenter" method="post">
-            <br />
+            
+            <div align="right">
+            <input type="text" placeholder="ID"name="id" required/>
+            
+            <input type="text" placeholder="Name" name="name" pattern="[A-Za-z]+" required/>
+               
 
-            Operator ID:
-            <input type="text" name="id" required/>
-            Operator Name:
-            <input type="text" name="name" pattern="[A-Za-z]+" required/>
-            Victim Name:
-            <input type="text" name="vName" pattern="[A-Za-z]+" required/><br />
+            <br/>
+                </div>
+            <div align="center">
+
+             <br/>
+            
+            <h1>Victim Info:</h1>
+                <br/>
+                          <div class="left">
+                              <input type="text" placeholder="Name" name="vName" pattern="[A-Za-z]+" required />
+                              <input type="text" name="phoneNumber" placeholder="Phone Number" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required />
+                          
+            <br/><br/>
+            <input type="text" placeholder="Address"name="address" required/>
+            
+            <input type="text" placeholder="City" name="city" pattern="[A-Za-z]+" required<br />
+            <br/><br/>
+            <input type="text" placeholder="State"name="state" pattern="[A-Za-z]{2}"required<br />
+           
+            <input type="text" placeholder="ZipCode"name="zipCode" pattern="[0-9]{5}" required<br />
             <br /><br /><br />
-            Address:
-            <input type="text" name="address" required<br />
-            City:
-            <input type="text" name="city" pattern="[A-Za-z]+" required<br />
-            State:
-            <input type="text" name="state" pattern="[A-Za-z]{2}"required<br />
-            Zip Code:
-            <input type="text" name="zipCode" pattern="[0-9]{5}" required<br />
-            <br /><br /><br />
 
-            Emergency:
-            <input type="text" name="emergency" required<br />
-
-            Phone Number:
-            <input type="text" name="phoneNumber" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required/>
+            <div class="push">
+            <input type="text" placeholder="Emergency Description"name="emergency" required<br />
+                </div><br/><br/>
             Urgency:
+                <br/>
             <input type="radio" name="Urgency" value="1" /> 1
             <input type="radio" name="Urgency" value="2" /> 2
             <input type="radio" name="Urgency" value="3" /> 3
@@ -62,7 +83,9 @@
             <br /><br />
 
             <br /><br />
+                
             <input type="submit" value=" submit" />
+                </div></div></div>
         </form>
 
 </body>
