@@ -49,6 +49,8 @@ def home():
 
 @app.route('/login', methods=['GET','POST'])
 def login():
+    #userCheck('JaneDoe1')
+    #passCheck('JaneDoe1', '1234')
     if request.method == 'GET':
         #id = request.form["id"]
         return render_template("loginpage.html", var=False) # var used to render invalid id/password
@@ -60,7 +62,7 @@ def login():
         passwordReg = request.form['passwordReg'] # Registering User Password
         userTypeReg = request.form['userTypeReg'] # Registering User UserType
 
-        #userTEST = testUser(username)
+       
         userTest = True
         userPass = True
         userRegPass = True
@@ -68,6 +70,10 @@ def login():
         userRegPass = True
         userTypeReg = True
 
+       
+        # use this line for conditionals
+        # userTest = userCheck(username)
+        # passTest = passCheck(username, id)
         if  userTest == True:  
             if userPass == True:
                 #Possible another if for determing what page to go for each user
@@ -404,3 +410,35 @@ def editName(eventID, newName):
     conn.commit()
     cur.close()
     conn.close()
+
+# Returns true is user exists, false of user's not registered
+def userCheck(username):
+    conn = sqlite3.connect("logins.db")
+    cur = conn.cursor()
+
+    userBool = cur.execute('SELECT username FROM users WHERE username = ?', (username,))
+    userBool = cur.fetchall()
+    
+    conn.commit()
+    cur.close()
+    conn.close()
+    if userBool == []:
+        return False
+    else:
+        return True
+
+# Returns true is user exists, false of user's not registered
+def passCheck(username, id):
+    conn = sqlite3.connect("logins.db")
+    cur = conn.cursor()
+
+    passBool = cur.execute('SELECT username FROM users WHERE password = ?', (id,))
+    passBool = cur.fetchall()
+    
+    conn.commit()
+    cur.close()
+    conn.close()
+    if passBool == []:
+        return False
+    else:
+        return True
