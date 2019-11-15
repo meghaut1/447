@@ -49,10 +49,38 @@ def home():
 
 @app.route('/login', methods=['GET','POST'])
 def login():
-    if request.method == 'POST':
-        id = request.form["id"]
+    if request.method == 'GET':
+        #id = request.form["id"]
         return render_template("loginpage.html", var=False) # var used to render invalid id/password
+    if request.method == 'POST':
+        id = request.form['password'] # Existing User Password
+        username = request.form['username'] # Existing User Username
+        usernameReg = request.form['usernameReg'] # Registering User Username
+        IDReg = request.form['IDReg'] # Registering User ID
+        passwordReg = request.form['passwordReg'] # Registering User Password
+        userTypeReg = request.form['userTypeReg'] # Registering User UserType
 
+        #userTEST = testUser(username)
+        userTest = True
+        userPass = True
+        userRegPass = True
+        userRegID = True
+        userRegPass = True
+        userTypeReg = True
+
+        if  userTest == True:  
+            if userPass == True:
+                #Possible another if for determing what page to go for each user
+            #session['logged_in'] = True
+                return redirect(url_for('callCenter'))
+        if userReg == True:
+            if userRegPass == True:
+                if userRegID == True:
+                    if userTypeReg == True:
+                        return redirect(url_for('login'))
+        else:
+            flash('wrong password!')
+            return redirect(url_for("loginpage.html"))
     return render_template("loginpage.html")
 
 @app.route('/callCenter', methods=['GET', 'POST'])
@@ -210,7 +238,8 @@ def editTable(editID):
     a = address[i]
     p = phone[i]
     u = urgency[i]
-    return render_template('editTable.html', emergency=e, address=a, phone=p, urgency=u, id=i)
+    editID = int(editID)
+    return render_template('editTable.html', emergency=e, address=a, phone=p, urgency=u, id=editID)
 
 
 @app.route('/incidentPanel/create')

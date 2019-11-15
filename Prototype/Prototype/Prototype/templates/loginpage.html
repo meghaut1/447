@@ -4,16 +4,17 @@
 <div class="login-page">
   <div class="form">
     <form class="register-form">
-      <input type="text" placeholder="Name"/>
-      <input type="text" placeholder="Unique ID"/>
-      <input type="text" placeholder="Email Address"/>
-      <button>create</button>
+      <input name="usernameReg" type="text" placeholder="Username"/>
+      <input name ="IDReg "type="text" placeholder="Unique ID"/>
+      <input name ="passwordReg" type="text" placeholder="Enter Password"/>
+      <input name ="userTypeReg" type="text" placeholder="Enter your User Type"/>
+      <input type="submit"></input>
       <p class="message">Already registered? <a href="#">Sign In</a></p>
     </form>
-    <form class="login-form">
-      <input type="text" placeholder="Unique ID"/>
-      <input type="text" placeholder="Name"/>
-      <button>login</button>
+    <form method="POST" action="/login" class="login-form">
+      <input name="username" type="text" placeholder="Username"/>
+      <input name="password" type="text" placeholder="Password"/>
+      <input type="submit"></input>
       <p class="message">Not registered? <a href="#">Create an account</a></p>
     </form>
   </div>
