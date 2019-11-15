@@ -57,10 +57,16 @@ def login():
 
 @app.route('/callCenter', methods=['GET', 'POST'])
 def callCenter():
+    
     #print(returnMission()) # used for testing
     #deleteEvent(2001)
     #print('here')
     #print(returnMission())
+    #editEmergency(2002, 'update')
+    #editAddress(2002, '1234 updated drive')
+    #editPhone(2002, '301-123-4567')
+    #editUrgency(2002, 1)
+    editName(2002, 'nameupdate')
     if request.method == 'POST':
         getInfo()
     return render_template("callCenter.html")
@@ -303,8 +309,69 @@ def deleteEvent(eventID):
     #print(event[0][0])
     cur.execute('DELETE FROM victim WHERE vID = ?', (event[0][3],))
     cur.execute('DELETE FROM call WHERE callID = ?', (event[0][1],))
-    cur.execute('DELETE FROM event WHERE eventID = ?', (event[0][0],))
+    cur.execute('DELETE FROM event WHERE eventID = ?S', (event[0][0],))
   
+    conn.commit()
+    cur.close()
+    conn.close()
+
+def editEmergency(eventID, newEm):
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+    
+
+    vID = cur.execute('SELECT vID FROM event WHERE eventID = ?', (eventID,))
+    vID = cur.fetchall()
+
+    cur.execute('UPDATE Call SET emergency = ? WHERE vID = ?', (newEm, vID[0][0]))
+    conn.commit()
+    cur.close()
+    conn.close()   
+    
+def editAddress(eventID, newAdd):
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+    
+
+    vID = cur.execute('SELECT vID FROM event WHERE eventID = ?', (eventID,))
+    vID = cur.fetchall()
+
+    cur.execute('UPDATE Victim SET address = ? WHERE vID = ?', (newAdd, vID[0][0]))
+    conn.commit()
+    cur.close()
+    conn.close() 
+
+def editPhone(eventID, newPhone):
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+    
+
+    vID = cur.execute('SELECT vID FROM event WHERE eventID = ?', (eventID,))
+    vID = cur.fetchall()
+
+    cur.execute('UPDATE Victim SET phone = ? WHERE vID = ?', (newPhone, vID[0][0]))
+    conn.commit()
+    cur.close()
+    conn.close() 
+
+def editUrgency(eventID, newUrg):
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+    
+    cur.execute('UPDATE Event SET urgency = ? WHERE eventID = ?', (newUrg, eventID))
+    conn.commit()
+    cur.close()
+    conn.close() 
+
+def editName(eventID, newName):
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+    
+
+    vID = cur.execute('SELECT vID FROM event WHERE eventID = ?', (eventID,))
+    vID = cur.fetchall()
+
+    cur.execute('UPDATE Victim SET name = ? WHERE vID = ?', (newName, vID[0][0]))
     conn.commit()
     cur.close()
     conn.close()
