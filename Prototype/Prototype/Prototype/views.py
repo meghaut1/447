@@ -51,7 +51,8 @@ def home():
 
 @app.route('/login', methods=['GET','POST'])
 def login():
-    addUser('Kenny', '1111', 'Volunteer')
+    roleCheck('Kenny')
+    #addUser('Kenny', '1111', 'Volunteer')
     #userCheck('JaneDoe1')
     #passCheck('JaneDoe1', '1234')
     if request.method == 'GET':
@@ -419,6 +420,20 @@ def userCheck(username):
         return False
     else:
         return True
+
+def roleCheck(username):
+    conn = sqlite3.connect("logins.db")
+    cur = conn.cursor()
+
+    userType = cur.execute('SELECT userType FROM users WHERE username = ?', (username,))
+    userType = cur.fetchall()
+    
+    conn.commit()
+    cur.close()
+    conn.close()
+    role = userType[0][0]
+    str(role)
+    return role
 
 # Returns true is user exists, false of user's not registered
 def passCheck(username, id):
