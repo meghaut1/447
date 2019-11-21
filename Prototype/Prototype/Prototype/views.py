@@ -59,10 +59,10 @@ def login():
     if request.method == 'POST':
         id = request.form['password'] # Existing User Password
         username = request.form['username'] # Existing User Username
-        usernameReg = request.form['usernameReg'] # Registering User Username
-        IDReg = request.form['IDReg'] # Registering User ID
-        passwordReg = request.form['passwordReg'] # Registering User Password
-        userTypeReg = request.form['userTypeReg'] # Registering User UserType
+        #usernameReg = request.form['usernameReg'] # Registering User Username
+        #IDReg = request.form['IDReg'] # Registering User ID
+        #passwordReg = request.form['passwordReg'] # Registering User Password
+        #userTypeReg = request.form['userTypeReg'] # Registering User UserType
 
        
         #userTest = True
