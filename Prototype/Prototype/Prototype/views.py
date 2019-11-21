@@ -57,36 +57,33 @@ def login():
         #id = request.form["id"]
         return render_template("loginpage.html", var=False) # var used to render invalid id/password
     if request.method == 'POST':
-        id = request.form['password'] # Existing User Password
-        username = request.form['username'] # Existing User Username
-        #usernameReg = request.form['usernameReg'] # Registering User Username
-        #IDReg = request.form['IDReg'] # Registering User ID
-        #passwordReg = request.form['passwordReg'] # Registering User Password
-        #userTypeReg = request.form['userTypeReg'] # Registering User UserType
+        id = request.form.getlist('password') # Existing User Password
+        username = request.form.getlist('username') # Existing User Username
+        usernameReg = request.form.getlist('usernameReg') # Registering User Username
+        IDReg = request.form.getlist('IDReg') # Registering User ID
+        passwordReg = request.form.getlist('passwordReg') # Registering User Password
+        userTypeReg = request.form.getlist('userTypeReg') # Registering User UserType
 
-       
-        #userTest = True
-        #userPass = True
-        #userRegPass = True
-        #userRegID = True
-        #userRegPass = True
-        #userTypeReg = True
-
-       
-        # use this line for conditionals
-        # userTest = userCheck(username)
-        # passTest = passCheck(username, id)
-        if userCheck(username) == True:
-            if  passCheck(username, id)== True: 
-                 return redirect(url_for('callCenter'))
-                #Possible another if for determing what page to go for each user -- Will have to check what role they are then do ifs off that
-            #session['logged_in'] = True
+        #login
+        if (len(id) > 0):
+            username = username[0]
+            id = id[0]
+            if userCheck(username) == True:
+                if  passCheck(username, id)== True: 
+                     return redirect(url_for('callCenter'))
+                    #Possible another if for determing what page to go for each user -- Will have to check what role they are then do ifs off that
+                #session['logged_in'] = True
                
-        if userCheck(usernameReg) == False:
-            return redirect(url_for('login')) #Need to submit their data and return
+
+        
+        #register
         else:
-            flash('wrong password!')
-            return redirect(url_for("loginpage.html"))
+            usernameReg = usernameReg[0]
+            if userCheck(usernameReg) == False:
+                return redirect(url_for('login')) #Need to submit their data and return
+            else:
+                return redirect(url_for("loginpage.html"))
+
     return render_template("loginpage.html")
 
 @app.route('/callCenter', methods=['GET', 'POST'])
