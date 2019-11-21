@@ -51,7 +51,7 @@ def home():
 
 @app.route('/login', methods=['GET','POST'])
 def login():
-    roleCheck('Kenny')
+    #roleCheck('Kenny')
     #addUser('Kenny', '1111', 'Volunteer')
     #userCheck('JaneDoe1')
     #passCheck('JaneDoe1', '1234')
@@ -66,6 +66,7 @@ def login():
         passwordReg = request.form.getlist('passwordReg') # Registering User Password
         userTypeReg = request.form.getlist('userTypeReg') # Registering User UserType
 
+        print(IDReg)
         #login
         if (len(id) > 0):
             username = username[0]
@@ -80,12 +81,22 @@ def login():
         
         #register
         else:
-            usernameReg = usernameReg[0]
-            if userCheck(usernameReg) == False:
+
+            usernameReg1 = usernameReg[0]
+            IDReg1 = IDReg[0]
+            userTypeReg1 = userTypeReg[0]
+            print(usernameReg1)
+            print(IDReg1)
+            print(userTypeReg1)
+            print("Test1")
+            if userCheck(usernameReg1) == False:
+                print("Test")
+                addUser(usernameReg1, IDReg1, userTypeReg1)
+                print("Test2")
                 return redirect(url_for('login')) #Need to submit their data and return
             else:
-                return redirect(url_for("loginpage.html"))
-
+                return redirect(url_for('login'))
+    
     return render_template("loginpage.html")
 
 @app.route('/callCenter', methods=['GET', 'POST'])
