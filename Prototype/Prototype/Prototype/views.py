@@ -40,7 +40,9 @@ def getVID():
         VID += 1
     return VID
 
-
+@app.route('/volunteer')
+def volunteer():    
+    return render_template("volunteer.html")
 
 # run ipconfig in terminal then use the IPv4 address:5000 to access page
 @app.route('/')
