@@ -1,74 +1,3 @@
-<<<<<<< HEAD
-﻿<!DOCTYPE html>
-
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <title>Call Center</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='content/styleSheet.css') }}" />
-
-    <style>
-        .columnHeader {
-            font-family: "Arial, Helvetica, sans-serif";
-        }
-
-        .data {
-            text-align: center;
-        }
-    </style>
-
-</head>
-<body>
-
-    <div class="navbar">
-        <a href="/incidentPanel">Incident Panel</a>
-        <a href="/deploymentPanel">Mission Panel</a>
-        <a class="active" href="/callCenter">Report an Incident</a>
-    </div>
-    <br />
-
-    <h1 style="font-family: georgia" ; align="center">Call Center</h1> <div style="text-align:center;">
-        <h3 style="font-family: georgia" ; align="center"><em>Please enter in the following info:</em></h3>
-        <form name="event" action="callCenter" method="post">
-            <br />
-
-            Operator ID:
-            <input type="text" name="id" required />
-            Operator Name:
-            <input type="text" name="name" pattern="[A-Za-z]+" required />
-            <!----Victim Name:-->
-            <input type="text" name="vName" pattern="[A-Za-z]+" required /><br / placeholder="Name">
-            <br /><br /><br />
-            Address:
-            <input type="text" name="address" required<br />
-            City:
-            <input type="text" name="city" pattern="[A-Za-z]+" required<br />
-            State:
-            <input type="text" name="state" pattern="[A-Za-z]{2}" required<br />
-            Zip Code:
-            <input type="text" name="zipCode" pattern="[0-9]{5}" required<br />
-            <br /><br /><br />
-
-            Emergency:
-            <input type="text" name="emergency" required<br />
-
-            Phone Number:
-            <input type="text" name="phoneNumber" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required />
-            Urgency:
-            <input type="radio" name="Urgency" value="1" /> 1
-            <input type="radio" name="Urgency" value="2" /> 2
-            <input type="radio" name="Urgency" value="3" /> 3
-            <input type="radio" name="Urgency" value="4" /> 4
-            <input type="radio" name="Urgency" value="5" required /> 5
-            <br /><br />
-
-            <br /><br />
-            <input type="submit" value=" submit" />
-        </form>
-
-</body>
-</html>
-=======
 ﻿<!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
@@ -161,4 +90,3 @@
 
 </body>
 </html>
->>>>>>> 7ae815266523be15df2793a0fc6b599b796006db
