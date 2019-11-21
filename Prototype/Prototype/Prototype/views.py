@@ -76,8 +76,9 @@ def login():
         # use this line for conditionals
         # userTest = userCheck(username)
         # passTest = passCheck(username, id)
-        if  passCheck(username, id)== True: 
-             return redirect(url_for('callCenter'))
+        if userCheck(username) == True:
+            if  passCheck(username, id)== True: 
+                 return redirect(url_for('callCenter'))
                 #Possible another if for determing what page to go for each user -- Will have to check what role they are then do ifs off that
             #session['logged_in'] = True
                
