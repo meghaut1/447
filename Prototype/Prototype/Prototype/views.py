@@ -51,6 +51,7 @@ def home():
 
 @app.route('/login', methods=['GET','POST'])
 def login():
+    addUser('Kenny', '1111', 'Volunteer')
     #userCheck('JaneDoe1')
     #passCheck('JaneDoe1', '1234')
     if request.method == 'GET':
@@ -437,3 +438,13 @@ def passCheck(username, id):
         return False
     else:
         return True
+
+def addUser(username, password, role):
+    conn = sqlite3.connect("logins.db")
+    cur = conn.cursor()
+
+    cur.execute('''INSERT INTO users(username, password, userType) VALUES (?, ?, ?)''', (username, password, role))
+
+    conn.commit()
+    cur.close()
+    conn.close()
