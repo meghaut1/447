@@ -40,7 +40,9 @@ def getVID():
         VID += 1
     return VID
 
-
+@app.route('/volunteer')
+def volunteer():    
+    return render_template("volunteer.html")
 
 # run ipconfig in terminal then use the IPv4 address:5000 to access page
 @app.route('/')
@@ -63,27 +65,24 @@ def login():
         userTypeReg = request.form['userTypeReg'] # Registering User UserType
 
        
-        userTest = True
-        userPass = True
-        userRegPass = True
-        userRegID = True
-        userRegPass = True
-        userTypeReg = True
+        #userTest = True
+        #userPass = True
+        #userRegPass = True
+        #userRegID = True
+        #userRegPass = True
+        #userTypeReg = True
 
        
         # use this line for conditionals
         # userTest = userCheck(username)
         # passTest = passCheck(username, id)
-        if  userTest == True:  
-            if userPass == True:
-                #Possible another if for determing what page to go for each user
+        if  passCheck(username, id)== True: 
+             return redirect(url_for('callCenter'))
+                #Possible another if for determing what page to go for each user -- Will have to check what role they are then do ifs off that
             #session['logged_in'] = True
-                return redirect(url_for('callCenter'))
-        if userReg == True:
-            if userRegPass == True:
-                if userRegID == True:
-                    if userTypeReg == True:
-                        return redirect(url_for('login'))
+               
+        if userCheck(usernameReg) == False:
+            return redirect(url_for('login')) #Need to submit their data and return
         else:
             flash('wrong password!')
             return redirect(url_for("loginpage.html"))
