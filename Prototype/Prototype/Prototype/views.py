@@ -92,15 +92,6 @@ def login():
 @app.route('/callCenter', methods=['GET', 'POST'])
 def callCenter():
     
-    #print(returnMission()) # used for testing
-    #deleteEvent(2001)
-    #print('here')
-    #print(returnMission())
-    #editEmergency(2002, 'update')
-    #editAddress(2002, '1234 updated drive')
-    #editPhone(2002, '301-123-4567')
-    #editUrgency(2002, 1)
-    editName(2002, 'nameupdate')
     if request.method == 'POST':
         getInfo()
     return render_template("callCenter.html")
@@ -213,16 +204,19 @@ def incidentPanel():
       ids = request.form.getlist('id')
       edit = request.form.getlist('edit')
       if len(edit) > 0 and edit[0] == 'edited':
-        id = request.form['edit']
+        id = request.form['id']
+        n = request.form['name']
         e = request.form['emergency']
         a = request.form['address']
         p = request.form['phone']
         u = request.form['urgency']
         
-        # testing
-        test = [e, a, p, u]
-        print(test)
         # then insert edits into database
+        editName(id, n)
+        editEmergency(id, e)
+        editAddress(id, a)
+        editPhone(id, p)
+        editUrgency(id, u)
 
       if len(edit) > 0 and edit[0].isnumeric():
         return editTable(edit[0])
@@ -239,13 +233,14 @@ def incidentPanel():
 def editTable(editID):
 
     id, timestamp, emergency, address, phone, urgency = genTable()
-    i =  id.index(int(editID))
+    i = id.index(int(editID))
+    n = pullVictim()[0][0]
     e = emergency[i]
     a = address[i]
     p = phone[i]
     u = urgency[i]
     editID = int(editID)
-    return render_template('editTable.html', emergency=e, address=a, phone=p, urgency=u, id=editID)
+    return render_template('editTable.html', name=n, emergency=e, address=a, phone=p, urgency=u, id=editID)
 
 
 @app.route('/incidentPanel/create')
@@ -357,7 +352,7 @@ def editEmergency(eventID, newEm):
 
     vID = cur.execute('SELECT vID FROM event WHERE eventID = ?', (eventID,))
     vID = cur.fetchall()
-
+ 
     cur.execute('UPDATE Call SET emergency = ? WHERE vID = ?', (newEm, vID[0][0]))
     conn.commit()
     cur.close()

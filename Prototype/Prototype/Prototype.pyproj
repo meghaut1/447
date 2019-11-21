@@ -48,6 +48,7 @@
     <Content Include="Prototype\static\content\loginpcss.css" />
     <Content Include="Prototype\static\content\styleSheet.css" />
     <Content Include="Prototype\templates\callCenter.html" />
+    <Content Include="Prototype\templates\editTable.html" />
     <Content Include="Prototype\templates\IncidentPanel.html" />
     <Content Include="Prototype\templates\IncidentTable.html" />
     <Content Include="Prototype\templates\loginpage.html" />
