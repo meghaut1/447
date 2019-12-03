@@ -73,12 +73,17 @@ def login():
             id = id[0]
             if userCheck(username) == True:
                 if  passCheck(username, id)== True: 
-                     return redirect(url_for('callCenter'))
+                    if roleCheck(username) == "Operator":
+                        return redirect(url_for('callCenter'))
+                    if roleCheck(username) == "Volunteer":
+                        return redirect(url_for('volunteer'))
+                    if roleCheck(username) == "Manager":
+                        return redirect(url_for('deploymentPanel'))
+                    if roleCheck(username) == "Officer":
+                        return redirect(url_for('incidentPanel'))
+                    if roleCheck(username) == "Admin":
+                        return redirect(url_for(''))
                     #Possible another if for determing what page to go for each user -- Will have to check what role they are then do ifs off that
-                #session['logged_in'] = True
-               
-
-        
         #register
         else:
 
