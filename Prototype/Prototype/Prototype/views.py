@@ -12,6 +12,7 @@ DATABASE = 'callCenter.db'
 CALLID = 1000
 EVENTID = 2000
 VID = 3000
+USER = None
 
 # Generates new callID for Call table
 def getCallID():
@@ -40,6 +41,13 @@ def getVID():
         VID += 1
     return VID
 
+def authenticate(roles):
+    global USER
+    if USER not in roles and USER != "Admin":
+        return False
+
+    return True
+
 @app.route('/volunteer')
 def volunteer():    
     return render_template("volunteer.html")
@@ -55,6 +63,8 @@ def login():
     #addUser('Kenny', '1111', 'Volunteer')
     #userCheck('JaneDoe1')
     #passCheck('JaneDoe1', '1234')
+    global USER
+
     if request.method == 'GET':
         #id = request.form["id"]
         return render_template("loginpage.html", var=False) # var used to render invalid id/password
@@ -74,14 +84,19 @@ def login():
             if userCheck(username) == True:
                 if  passCheck(username, id)== True: 
                     if roleCheck(username) == "Operator":
+                        USER = "Operator"
                         return redirect(url_for('callCenter'))
                     if roleCheck(username) == "Volunteer":
+                        USER = "Volunteer"
                         return redirect(url_for('volunteer'))
                     if roleCheck(username) == "Manager":
+                        USER = "Manager"
                         return redirect(url_for('deploymentPanel'))
                     if roleCheck(username) == "Officer":
+                        USER = "Officer"
                         return redirect(url_for('incidentPanel'))
                     if roleCheck(username) == "Admin":
+                        USER = "Admin"
                         return redirect(url_for(''))
                     #Possible another if for determing what page to go for each user -- Will have to check what role they are then do ifs off that
         #register
@@ -106,7 +121,11 @@ def login():
 
 @app.route('/callCenter', methods=['GET', 'POST'])
 def callCenter():
-    
+    roles = ["Operator"]
+
+    if not authenticate(roles):
+        return redirect(request.referrer)
+
     if request.method == 'POST':
         getInfo()
     return render_template("callCenter.html")
