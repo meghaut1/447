@@ -377,7 +377,7 @@ def deleteEvent(eventID):
     #print(event[0][0])
     cur.execute('DELETE FROM victim WHERE vID = ?', (event[0][3],))
     cur.execute('DELETE FROM call WHERE callID = ?', (event[0][1],))
-    cur.execute('DELETE FROM event WHERE eventID = ?S', (event[0][0],))
+    cur.execute('DELETE FROM event WHERE eventID = ?', (event[0][0],))
   
     conn.commit()
     cur.close()
