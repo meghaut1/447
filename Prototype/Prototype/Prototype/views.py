@@ -12,7 +12,7 @@ DATABASE = 'callCenter.db'
 CALLID = 1000
 EVENTID = 2000
 VID = 3000
-USER = None
+USER = "Admin"
 ID = None
 NAME = None
 
@@ -271,9 +271,15 @@ def incidentPanel():
         editAddress(id, a)
         editPhone(id, p)
         editUrgency(id, u)
+        return redirect(request.referrer)
 
       if len(edit) > 0 and edit[0].isnumeric():
         return editTable(edit[0])
+
+      id = request.form['delete']
+      if id:
+          deleteEvent(id)
+          return redirect(request.referrer)
 
       if ids == []:
         return redirect(url_for('createMission'))
@@ -285,6 +291,11 @@ def incidentPanel():
 
 @app.route('/incidentPanel/edit', methods=['POST', 'GET'])
 def editTable(editID):
+    roles = ["Operator", "Officer"]
+    if not authenticate(roles):
+        if USER == None:
+            return redirect(url_for('login'))
+        return redirect(request.referrer)
 
     id, timestamp, emergency, address, phone, urgency = genTable()
     i = id.index(int(editID))
@@ -299,6 +310,12 @@ def editTable(editID):
 
 @app.route('/incidentPanel/create')
 def createMission():
+   roles = ["Officer"]
+   if not authenticate(roles):
+        if USER == None:
+            return redirect(url_for('login'))
+        return redirect(request.referrer)
+       
    id, timestamp, emergency, address, phone, urgency = genTable()
    length = len(id)
 
@@ -399,7 +416,7 @@ def deleteEvent(eventID):
     #print(event[0][0])
     cur.execute('DELETE FROM victim WHERE vID = ?', (event[0][3],))
     cur.execute('DELETE FROM call WHERE callID = ?', (event[0][1],))
-    cur.execute('DELETE FROM event WHERE eventID = ?S', (event[0][0],))
+    cur.execute('DELETE FROM event WHERE eventID = ?', (event[0][0],))
   
     conn.commit()
     cur.close()
