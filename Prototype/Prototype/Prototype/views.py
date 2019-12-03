@@ -49,6 +49,10 @@ def volunteer():
 def home():
     return redirect(url_for('login'))
 
+@app.route('/logout')
+def logout():
+    return redirect(url_for('login'))
+
 @app.route('/login', methods=['GET','POST'])
 def login():
     #roleCheck('Kenny')
