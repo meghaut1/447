@@ -13,6 +13,8 @@ CALLID = 1000
 EVENTID = 2000
 VID = 3000
 USER = None
+ID = None
+NAME = None
 
 # Generates new callID for Call table
 def getCallID():
@@ -59,6 +61,8 @@ def home():
 
 @app.route('/logout')
 def logout():
+    global USER
+    USER = None
     return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET','POST'])
@@ -68,6 +72,8 @@ def login():
     #userCheck('JaneDoe1')
     #passCheck('JaneDoe1', '1234')
     global USER
+    global ID
+    global NAME
 
     if request.method == 'GET':
         #id = request.form["id"]
@@ -89,6 +95,8 @@ def login():
                 if  passCheck(username, id)== True: 
                     if roleCheck(username) == "Operator":
                         USER = "Operator"
+                        ID = id
+                        NAME = username
                         return redirect(url_for('callCenter'))
                     if roleCheck(username) == "Volunteer":
                         USER = "Volunteer"
@@ -128,6 +136,8 @@ def callCenter():
     roles = ["Operator"]
 
     if not authenticate(roles):
+        if USER == None:
+            return redirect(url_for('login'))
         return redirect(request.referrer)
 
     if request.method == 'POST':
@@ -137,10 +147,11 @@ def callCenter():
 # gets input from HTML page
 def getInfo():
 
+    global ID
+    global NAME
     # variables for the Operator
-    operID = request.form['id']
-    name = request.form['name']
-    print(name + " " + operID)
+    operID = ID
+    name = NAME
     
     # variables for the Victim
     vName = request.form['vName']
@@ -237,7 +248,12 @@ def genTable():
 # Printing Call information to make missions
 @app.route('/incidentPanel', methods=['POST', 'GET'])
 def incidentPanel():
-    
+    roles = ["Operator", "Officer"]
+    if not authenticate(roles):
+        if USER == None:
+            return redirect(url_for('login'))
+        return redirect(request.referrer)
+
     if request.method == 'POST':
       ids = request.form.getlist('id')
       edit = request.form.getlist('edit')
@@ -290,6 +306,12 @@ def createMission():
 
 @app.route('/deploymentPanel', methods=['POST', 'GET'])
 def deploymentPanel():
+    roles = ["Officer", "Manager"]
+    if not authenticate(roles):
+        if USER == None:
+            return redirect(url_for('login'))
+        return redirect(request.referrer)
+
     if request.method == 'POST':
         id = request.form['delete']
         deleteEvent(id)
