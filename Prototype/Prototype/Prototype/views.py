@@ -359,10 +359,10 @@ def createMission():
             return redirect(url_for('login'))
         return redirect(request.referrer)
        
-   id, timestamp, emergency, address, phone, urgency = genTable()
+   id, timestamp, emergency, address, phone, urgency, assigned = genTable()
    length = len(id)
 
-   return render_template('IncidentTable.html', var=True, length=length, id=id, timestamp=timestamp, emergency=emergency, address=address, phone=phone, urgency=urgency)
+   return render_template('IncidentTable.html', var=True, length=length, id=id, timestamp=timestamp, emergency=emergency, address=address, phone=phone, urgency=urgency, assigned=assigned)
 
 @app.route('/deploymentPanel', methods=['POST', 'GET'])
 def deploymentPanel():
@@ -378,6 +378,7 @@ def deploymentPanel():
         deleteEvent(id)
 
     missions = returnMission()
+    print(missions)
     address = [a[1][0][5] for a in missions]
     zip = [z[0] for z in missions]
     emergency = [e[1][0][4] for e in missions]
