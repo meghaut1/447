@@ -298,6 +298,7 @@ def incidentPanel():
     if request.method == 'POST':
       ids = request.form.getlist('id')
       edit = request.form.getlist('edit')
+      generate = request.form.getlist('generate')
       if len(edit) > 0 and edit[0] == 'edited':
         id = request.form['id']
         n = request.form['name']
@@ -313,9 +314,20 @@ def incidentPanel():
         editPhone(id, p)
         editUrgency(id, u)
         return redirect(request.referrer)
-
+      
+      # edit table
       if len(edit) > 0 and edit[0].isnumeric():
         return editTable(edit[0])
+      
+      # generate mission
+      if len(generate) > 0:
+          string = ""
+          for i in range(len(generate)):
+              string = string + generate[i] + " "
+            
+          assigned = request.form['selectAssignment']
+          print(assigned)
+          return redirect(request.referrer)
 
       id = request.form['delete']
       if id:
@@ -339,7 +351,7 @@ def editTable(editID):
             return redirect(url_for('login'))
         return redirect(request.referrer)
 
-    id, timestamp, emergency, address, phone, urgency = genTable()
+    id, timestamp, emergency, address, phone, urgency, assigned = genTable()
     i = id.index(int(editID))
     n = pullVictim()[0][0]
     e = emergency[i]
