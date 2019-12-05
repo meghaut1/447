@@ -134,8 +134,7 @@ def volunteer():
     roles = ["Volunteer"]
     global USER
     global NAME
-    vols = getVols()
-    print(vols)
+    assignVol(2000,'Kenny')
     if not authenticate(roles):
        if USER == None or request.referrer == None:
            return redirect(url_for('login'))
@@ -596,3 +595,12 @@ def getVols():
     conn.close()
     return vols
 
+def assignVol(eventID, username):
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+
+    cur.execute('''UPDATE Event SET assigned = (?) WHERE eventID = (?)''', (username, eventID))
+
+    conn.commit()
+    cur.close()
+    conn.close()
