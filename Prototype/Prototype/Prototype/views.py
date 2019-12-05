@@ -148,6 +148,11 @@ def volunteer():
         print(name)
     return render_template("volunteer.html")
 
+
+@app.route('/volunteerPanel')
+def volunteerPanel():
+    return render_template("volunteerPanel.html")
+
 @app.route('/callCenter', methods=['GET', 'POST'])
 def callCenter():
     roles = ["Operator"]
