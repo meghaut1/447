@@ -124,7 +124,7 @@ def login():
                         return redirect(url_for('incidentPanel'))
                     if roleCheck(username) == "Admin":
                         USER = "Admin"
-                        return redirect(url_for(''))
+                        return redirect(url_for('incidentPanel'))
                     #Possible another if for determing what page to go for each user -- Will have to check what role they are then do ifs off that
         #register
         else:
