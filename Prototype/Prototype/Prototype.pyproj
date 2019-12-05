@@ -56,6 +56,7 @@
     <Content Include="Prototype\templates\loginpage.html" />
     <Content Include="Prototype\templates\deploymentTable.html" />
     <Content Include="Prototype\templates\deploymentPanel.html" />
+    <Content Include="Prototype\templates\volunteer.html" />
     <Content Include="requirements.txt" />
     <Content Include="Prototype\static\content\bootstrap.css" />
     <Content Include="Prototype\static\content\bootstrap.min.css" />

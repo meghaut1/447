@@ -50,9 +50,7 @@ def authenticate(roles):
 
     return True
 
-@app.route('/volunteer')
-def volunteer():    
-    return render_template("volunteer.html")
+
 
 # run ipconfig in terminal then use the IPv4 address:5000 to access page
 @app.route('/')
@@ -131,12 +129,31 @@ def login():
     
     return render_template("loginpage.html")
 
+@app.route('/volunteer', methods=['GET', 'POST'])
+def volunteer():
+    roles = ["Volunteer"]
+    global USER
+    if not authenticate(roles):
+       if USER == None or request.referrer == None:
+           return redirect(url_for('login'))
+       return redirect(request.referrer)
+    
+    if request.method == 'POST':
+        name = request.form['name']
+        address = request.form['address']
+        city = request.form['city']
+        state = request.form['state']
+        zipCode = request.form['zipCode']
+        service = request.form['service']
+        print(name)
+    return render_template("volunteer.html")
+
 @app.route('/callCenter', methods=['GET', 'POST'])
 def callCenter():
     roles = ["Operator"]
-
+    global USER
     if not authenticate(roles):
-        if USER == None:
+        if USER == None or request.referrer == None:
             return redirect(url_for('login'))
         return redirect(request.referrer)
 
@@ -249,8 +266,9 @@ def genTable():
 @app.route('/incidentPanel', methods=['POST', 'GET'])
 def incidentPanel():
     roles = ["Operator", "Officer"]
+    global USER
     if not authenticate(roles):
-        if USER == None:
+        if USER == None or request.referrer == None:
             return redirect(url_for('login'))
         return redirect(request.referrer)
 
@@ -292,8 +310,9 @@ def incidentPanel():
 @app.route('/incidentPanel/edit', methods=['POST', 'GET'])
 def editTable(editID):
     roles = ["Operator", "Officer"]
+    global USER
     if not authenticate(roles):
-        if USER == None:
+        if USER == None or request.referrer == None:
             return redirect(url_for('login'))
         return redirect(request.referrer)
 
@@ -311,8 +330,9 @@ def editTable(editID):
 @app.route('/incidentPanel/create')
 def createMission():
    roles = ["Officer"]
+   global USER
    if not authenticate(roles):
-        if USER == None:
+        if USER == None or request.referrer == None:
             return redirect(url_for('login'))
         return redirect(request.referrer)
        
@@ -324,8 +344,9 @@ def createMission():
 @app.route('/deploymentPanel', methods=['POST', 'GET'])
 def deploymentPanel():
     roles = ["Officer", "Manager"]
+    global USER
     if not authenticate(roles):
-        if USER == None:
+        if USER == None or request.referrer == None:
             return redirect(url_for('login'))
         return redirect(request.referrer)
 
