@@ -322,12 +322,16 @@ def incidentPanel():
       # generate mission
       if len(generate) > 0:
           string = ""
-          for i in range(len(generate)):
-              string = string + generate[i] + " "
-            
           assigned = request.form['selectAssignment']
-          print(assigned)
-          return redirect(request.referrer)
+          for i in range(len(generate)):
+              string = string + generate[i]
+              if i != len(generate) - 1:
+                  string += ", "
+              assignVol(generate[i], assigned)
+          
+          id, timestamp, emergency, address, phone, urgency, assigned = genTable()
+          length = len(id)
+          return render_template('IncidentTable.html', var=False, length=length, id=id, timestamp=timestamp, emergency=emergency, address=address, phone=phone, urgency=urgency, assigned=assigned)
 
       id = request.form['delete']
       if id:
