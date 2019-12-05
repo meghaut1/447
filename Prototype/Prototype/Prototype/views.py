@@ -50,24 +50,7 @@ def authenticate(roles):
 
     return True
 
-@app.route('/volunteer', methods=['GET', 'POST'])
-def volunteer():
-    roles = ["Volunteer"]
-    global USER
-    if not authenticate(roles):
-       if USER == None or request.referrer == None:
-           return redirect(url_for('login'))
-       return redirect(request.referrer)
-    
-    if request.method == 'POST':
-        name = request.form['name']
-        address = request.form['address']
-        city = request.form['city']
-        state = request.form['state']
-        zipCode = request.form['zipCode']
-        service = request.form['service']
-    
-    return render_template("volunteer.html")
+
 
 # run ipconfig in terminal then use the IPv4 address:5000 to access page
 @app.route('/')
@@ -145,6 +128,25 @@ def login():
                 return redirect(url_for('login'))
     
     return render_template("loginpage.html")
+
+@app.route('/volunteer', methods=['GET', 'POST'])
+def volunteer():
+    roles = ["Volunteer"]
+    global USER
+    if not authenticate(roles):
+       if USER == None or request.referrer == None:
+           return redirect(url_for('login'))
+       return redirect(request.referrer)
+    
+    if request.method == 'POST':
+        name = request.form['name']
+        address = request.form['address']
+        city = request.form['city']
+        state = request.form['state']
+        zipCode = request.form['zipCode']
+        service = request.form['service']
+        print(name)
+    return render_template("volunteer.html")
 
 @app.route('/callCenter', methods=['GET', 'POST'])
 def callCenter():
