@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -18,21 +18,19 @@
 <body>
 
     <div class="navbar">
-        <a href="/incidentPanel">Incident Panel</a>
-        <a class="active" href="/deploymentPanel">Mission Panel</a>
-        <a href="/callCenter">Report an Incident</a>
+        <a href="/volunteer">Submit Volunteer Information</a>
+        <a class="active" href="/volunteerPanel">View Assigned Missions</a>
         <a style="float:right" href="/logout">Logout</a>
     </div>
 
-    <h1 style="text-align: center;">Deployment Panel</h1>
+    <h1 style="text-align: center;">Assigned Missions</h1>
     <br />
 
     <br /><br />
-          <form name="event" action="/deploymentPanel" method="post">
-              <table id="tbl_Mission" style="width: 85%; margin: 0px auto 50px auto; border: 1px solid #000000;">
+          <form name="event" action="/volunteerPanel" method="post">
+              <table id="tbl_VolunteerMissions" style="width: 85%; margin: 0px auto 50px auto; border: 1px solid #000000;">
                   <thead>
                       <tr>
-                          <th>Address</th>
                           <th>Zip Code</th>
                           <th>Tasks</th>
                           <th>Assigned to</th>
