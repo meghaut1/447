@@ -272,6 +272,7 @@ def genTable():
     address = []
     phone = []
     urgency = []
+    assigned = []
 
     for i in range(len(victims)):
         id.append(events[i][0])
@@ -280,8 +281,9 @@ def genTable():
         address.append(victims[i][1])
         phone.append(victims[i][5])
         urgency.append(events[i][2])
+        assigned.append(events[i][4])
 
-    return id, timestamp, emergency, address, phone, urgency
+    return id, timestamp, emergency, address, phone, urgency, assigned
 
 # Printing Call information to make missions
 @app.route('/incidentPanel', methods=['POST', 'GET'])
@@ -323,10 +325,10 @@ def incidentPanel():
       if ids == []:
         return redirect(url_for('createMission'))
 
-    id, timestamp, emergency, address, phone, urgency = genTable()
+    id, timestamp, emergency, address, phone, urgency, assigned = genTable()
     length = len(id)
 
-    return render_template('IncidentTable.html', var=False, length=length, id=id, timestamp=timestamp, emergency=emergency, address=address, phone=phone, urgency=urgency)
+    return render_template('IncidentTable.html', var=False, length=length, id=id, timestamp=timestamp, emergency=emergency, address=address, phone=phone, urgency=urgency, assigned=assigned)
 
 @app.route('/incidentPanel/edit', methods=['POST', 'GET'])
 def editTable(editID):
