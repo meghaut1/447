@@ -41,18 +41,19 @@
   <form name="event" action="/incidentPanel" method="post">
     <table id="tbl_Incident" style="width: 85%; margin: 0px auto 50px auto; border: 1px solid #000000;">
       <thead style="border: 1px solid #000000;">
-        <tr style="border: 1px solid #000000;">
-          {% if var == True %}
-          <th class="columnHeader" style="width: 40px;"></th>
-          {% endif %}
-          <th class="columnHeader" style="width: 60px;">Incident ID</th>
-          <th class="columnHeader" style="width: 60px;">Timestamp</th>
-          <th class="columnHeader" style="width: 60px;">Type</th>
-          <th class="columnHeader" style="width: 100px;">Address</th>
-          <th class="columnHeader" style="width: 100px;">Phone Number</th>
-          <th class="columnHeader" style="width: 70px;">Urgency</th>
-          <th class="columnHeader" style="width: 70px;"></th>
-        </tr>
+          <tr style="border: 1px solid #000000;">
+              {% if var == True %}
+              <th class="columnHeader" style="width: 40px;"></th>
+              {% endif %}
+              <th class="columnHeader" style="width: 60px;">Incident ID</th>
+              <th class="columnHeader" style="width: 60px;">Timestamp</th>
+              <th class="columnHeader" style="width: 60px;">Type</th>
+              <th class="columnHeader" style="width: 100px;">Address</th>
+              <th class="columnHeader" style="width: 100px;">Phone Number</th>
+              <th class="columnHeader" style="width: 70px;">Assigned Volunteer</th>
+              <th class="columnHeader" style="width: 70px;">Urgency</th>
+              <th class="columnHeader" style="width: 70px;"></th>
+          </tr>
       </thead>
       <tbody>
         {% block table %}{% endblock %}

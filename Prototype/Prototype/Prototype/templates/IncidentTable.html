@@ -3,13 +3,14 @@
     {% for i in range(length) %}
     <tr class="data">
         {% if var == True %}
-        <td><input type="checkbox" name="id" value="{{id[i]}}"/></td>
+        <td><input type="checkbox" name="id" value="{{id[i]}}" /></td>
         {% endif %}
         <td>{{id[i]}}</td>
         <td>{{timestamp[i]}}</td>
         <td>{{emergency[i]}}</td>
         <td>{{address[i]}}</td>
         <td>{{phone[i]}}</td>
+        <td>{{assigned[i]}}</td>
         <td>{{urgency[i]}}</td>
         <td>
             <button name="assign" value="{{id[i]}}" style="cursor: pointer; background-color: transparent; border: 0px; width: 24px; height: 24px;">
