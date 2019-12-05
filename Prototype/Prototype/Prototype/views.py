@@ -91,10 +91,10 @@ def login():
             id = id[0]
             if userCheck(username) == True:
                 if  passCheck(username, id)== True: 
+                    ID = id
+                    NAME = username
                     if roleCheck(username) == "Operator":
                         USER = "Operator"
-                        ID = id
-                        NAME = username
                         return redirect(url_for('callCenter'))
                     if roleCheck(username) == "Volunteer":
                         USER = "Volunteer"
@@ -133,19 +133,36 @@ def login():
 def volunteer():
     roles = ["Volunteer"]
     global USER
+    global NAME
+    vols = getVols()
+    print(vols)
     if not authenticate(roles):
        if USER == None or request.referrer == None:
            return redirect(url_for('login'))
        return redirect(request.referrer)
     
     if request.method == 'POST':
+        username = NAME
         name = request.form['name']
+        phone = request.form['phoneNumber']
         address = request.form['address']
         city = request.form['city']
         state = request.form['state']
         zipCode = request.form['zipCode']
         service = request.form['service']
-        print(name)
+        
+        # Opening db
+        conn = sqlite3.connect("callCenter.db")
+        cur = conn.cursor()
+
+        # Adding volunteer info
+        cur.execute('''INSERT INTO Volunteer (username, name, phone, service, address, city, state, zip) VALUES (?, ?, ?, ?, ?, ?, ?, ?)''', (username, name, phone, service, address, city, state, zipCode))
+        
+        # Commit queries and exit db
+        conn.commit()
+        cur.close
+        conn.close()
+
     return render_template("volunteer.html")
 
 @app.route('/callCenter', methods=['GET', 'POST'])
@@ -559,3 +576,17 @@ def addUser(username, password, role):
     conn.commit()
     cur.close()
     conn.close()
+
+def getVols():
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+    
+
+    vols = cur.execute('SELECT username FROM Volunteer')
+    vols = cur.fetchall()
+
+    conn.commit()
+    cur.close()
+    conn.close()
+    return vols
+
