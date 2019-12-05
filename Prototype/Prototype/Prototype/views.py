@@ -360,6 +360,7 @@ def deploymentPanel():
         deleteEvent(id)
 
     missions = returnMission()
+    address = [a[1][0][5] for a in missions]
     zip = [z[0] for z in missions]
     emergency = [e[1][0][4] for e in missions]
     team = []
@@ -371,7 +372,7 @@ def deploymentPanel():
         team.append(i)
         status.append("Incomplete")
 
-    return render_template('deploymentTable.html', length=length, zip=zip, emergency=emergency, team=team, status=status, id=id)
+    return render_template('deploymentTable.html', length=length, address=address, zip=zip, emergency=emergency, team=team, status=status, id=id)
 
 def getZips():
     conn = sqlite3.connect("callCenter.db")
