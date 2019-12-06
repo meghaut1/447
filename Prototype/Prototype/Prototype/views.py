@@ -412,7 +412,6 @@ def deploymentPanel():
 
     for i in range(len(zip)):
         team.append(i)
-        status.append("Incomplete")
 
     return render_template('deploymentTable.html', length=length, address=address, zip=zip, emergency=emergency, team=team, status=status, id=id)
 
