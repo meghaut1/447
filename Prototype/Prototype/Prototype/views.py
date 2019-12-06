@@ -12,6 +12,7 @@ DATABASE = 'callCenter.db'
 CALLID = 1000
 EVENTID = 2000
 VID = 3000
+MISSID = 4000
 USER = "Admin"
 ID = None
 NAME = None
@@ -43,6 +44,16 @@ def getVID():
         VID += 1
     return VID
 
+# Generates new missionID for Mission table
+def getMissID():
+  global MISSID
+  missions = pullMission()
+  ids = [x[0] for x in missions]
+  while MISSID in ids:
+        MISSID = MISSID + 1
+  return MISSID
+
+
 def authenticate(roles):
     global USER
     if USER not in roles and USER != "Admin":
@@ -65,10 +76,6 @@ def logout():
 
 @app.route('/login', methods=['GET','POST'])
 def login():
-    #roleCheck('Kenny')
-    #addUser('Kenny', '1111', 'Volunteer')
-    #userCheck('JaneDoe1')
-    #passCheck('JaneDoe1', '1234')
     global USER
     global ID
     global NAME
@@ -619,6 +626,43 @@ def assignVol(eventID, username):
     cur = conn.cursor()
 
     cur.execute('''UPDATE Event SET assigned = (?) WHERE eventID = (?)''', (username, eventID))
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+# Returns full contents of mission table
+def pullMission():
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+
+    mis = cur.execute('SELECT * FROM Mission')
+    mis = cur.fetchall()
+
+    conn.commit()
+    cur.close()
+    conn.close()
+    return mis
+
+# Pushes new mission into mission table
+def pushMission(incidentList, assignment):
+    mID = getMissID()
+    incomplete = "Incomplete"
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+
+    cur.execute('''INSERT INTO Mission(missionID, incidentList, missionAssignment, missionStatus) VALUES (?, ?, ?, ?)''', (mID, incidentList, assignment, incomplete))
+
+    conn.commit()
+    cur.close()
+    conn.close()
+   
+# Update the status of a mission
+def updateStatus(missionID, status):
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+
+    cur.execute('''UPDATE Mission SET missionStatus = (?) WHERE missionID = (?)''', (status, missionID))
 
     conn.commit()
     cur.close()
