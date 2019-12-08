@@ -306,6 +306,7 @@ def incidentPanel():
       ids = request.form.getlist('id')
       edit = request.form.getlist('edit')
       generate = request.form.getlist('generate')
+      delete = request.form.getlist('delete')
       if len(edit) > 0 and edit[0] == 'edited':
         id = request.form['id']
         n = request.form['name']
@@ -328,25 +329,18 @@ def incidentPanel():
       
       # generate mission
       if len(generate) > 0:
-          string = ""
+          incidentList = ""
           assigned = request.form['selectAssignment']
           for i in range(len(generate)):
-              string = string + generate[i]
+              incidentList = incidentList + generate[i]
               if i != len(generate) - 1:
-                  string += ", "
+                  incidentList += ", "
               assignVol(generate[i], assigned)
           
-          id, timestamp, emergency, address, phone, urgency, assigned = genTable()
-          length = len(id)
-          return render_template('IncidentTable.html', var=False, length=length, id=id, timestamp=timestamp, emergency=emergency, address=address, phone=phone, urgency=urgency, assigned=assigned)
+          pushMission(incidentList, assigned)
 
-      id = request.form['delete']
-      if id:
-          deleteEvent(id)
-          return redirect(request.referrer)
-
-      if ids == []:
-        return redirect(url_for('createMission'))
+      if len(delete) > 0:
+          deleteEvent(delete[0])
 
     id, timestamp, emergency, address, phone, urgency, assigned = genTable()
     length = len(id)
@@ -396,24 +390,35 @@ def deploymentPanel():
             return redirect(url_for('login'))
         return redirect(request.referrer)
 
+    var = False
     if request.method == 'POST':
-        id = request.form['delete']
-        deleteEvent(id)
+        id = request.form.getlist('delete')
+        edit = request.form.getlist('edit')
+        status = request.form.getlist('status')
 
-    missions = returnMission()
-    print(missions)
-    address = [a[1][0][5] for a in missions]
-    zip = [z[0] for z in missions]
-    emergency = [e[1][0][4] for e in missions]
-    team = []
-    status = []
-    length = len(zip)
-    id = [i[1][0][0] for i in missions]
+        if len(id) > 0:
+            deleteMission(id)
 
-    for i in range(len(zip)):
-        team.append(i)
+        if len(edit) > 0:
+          var = True
 
-    return render_template('deploymentTable.html', length=length, address=address, zip=zip, emergency=emergency, team=team, status=status, id=id)
+        if len(status) > 0:
+            stat = ""
+            for s in status:
+                if s != '':
+                    stat = s
+
+            updateStatus(edit[0], stat)
+            var = False
+
+    missions = pullMission()
+    missionID = [m[0] for m in missions]
+    missionList = [m[1] for m in missions]
+    team = [m[2] for m in missions]
+    status = [m[3] for m in missions]
+    length = len(missionID)
+
+    return render_template('deploymentTable.html', length=length, missionID=missionID, missionList=missionList, team=team, status=status, var=var)
 
 def getZips():
     conn = sqlite3.connect("callCenter.db")
@@ -663,6 +668,18 @@ def updateStatus(missionID, status):
 
     cur.execute('''UPDATE Mission SET missionStatus = (?) WHERE missionID = (?)''', (status, missionID))
 
+    conn.commit()
+    cur.close()
+    conn.close()
+
+def deleteMission(missionID):
+    # Deletes the event with the given eventID
+    # Used for when user makes an error when typing an event
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+
+    cur.execute('DELETE FROM Mission WHERE missionID = ?', (missionID,))
+  
     conn.commit()
     cur.close()
     conn.close()
