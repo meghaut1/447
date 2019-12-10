@@ -652,10 +652,11 @@ def pullMission():
 def pushMission(incidentList, assignment):
     mID = getMissID()
     incomplete = "Incomplete"
+    unassigned = "Unassigned"
     conn = sqlite3.connect("callCenter.db")
     cur = conn.cursor()
 
-    cur.execute('''INSERT INTO Mission(missionID, incidentList, missionAssignment, missionStatus) VALUES (?, ?, ?, ?)''', (mID, incidentList, assignment, incomplete))
+    cur.execute('''INSERT INTO Mission(missionID, incidentList, missionAssignment, missionStatus, volunteerList) VALUES (?, ?, ?, ?, ?)''', (mID, incidentList, assignment, incomplete, unassigned))
 
     conn.commit()
     cur.close()
