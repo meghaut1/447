@@ -1,13 +1,26 @@
 ﻿<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='content/styleSheet.css') }}" />
+    </head>
     <body>
-        <form name="event" action="/incidentPanel" method="post">
-            ID: <input type="hidden" id="id" name="id" value="{{id}}" /> {{id}} <br />
-            Name: <input type="text" id="name" name="name" value="{{name}}" /><br />
-            Emergency: <input type="text" id="emergency" name="emergency" value="{{emergency}}" /><br />
-            Address: <input type="text" id="address" name="address" value="{{address}}" /><br />
-            Phone: <input type="text" id="phone" name="phone" value="{{phone}}" /><br />
-            Urgency: <input type="text" id="urgency" name="urgency" value="{{urgency}}" /><br />
-            <button type="submit" name="edit" value="edited">Edit</button>
-        </form>
+
+        <br />
+        <h1 style="text-align: center;">Edit Incident Information</h1>
+
+        <div>
+            <form name="event" action="/incidentPanel" method="post" style="width: 300px; margin: 20px auto 50px auto;">
+                ID: <input type="hidden" id="id" name="id" value="{{id}}" /> {{id}} <br />
+                Name: <input type="text" id="name" name="name" value="{{name}}" /><br />
+                Emergency: <input type="text" id="emergency" name="emergency" value="{{emergency}}" /><br />
+                Address: <input type="text" id="address" name="address" value="{{address}}" /><br />
+                Phone: <input type="text" id="phone" name="phone" value="{{phone}}" /><br />
+                Urgency: <input type="text" id="urgency" name="urgency" value="{{urgency}}" /><br />
+
+                <br />
+
+                <button type="submit" name="edit" value="edited">Save Changes</button>
+
+            </form>
+        </div>
     </body>
 </html>
