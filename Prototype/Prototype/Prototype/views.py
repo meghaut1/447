@@ -708,10 +708,58 @@ def getEventList(missionID):
     conn = sqlite3.connect("callCenter.db")
     cur = conn.cursor()
 
-    eList = eventList = cur.execute('SELECT incidentList FROM mission WHERE missionID = ?', (missionID))
+    eList = cur.execute('SELECT incidentList FROM mission WHERE missionID = ?', (missionID,))
     eList = cur.fetchall()
 
     conn.commit()
     cur.close()
     conn.close()
     return eList
+
+def getCallID(eventID):
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+
+    info = cur.execute('SELECT callID FROM Event WHERE eventID = ?', (eventID,))
+    info = cur.fetchall()
+
+    conn.commit()
+    cur.close()
+    conn.close()
+    return info
+
+def getVicID(eventID):
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+
+    info = cur.execute('SELECT vID FROM Event WHERE eventID = ?', (eventID,))
+    info = cur.fetchall()
+
+    conn.commit()
+    cur.close()
+    conn.close()
+    return info
+
+def getCallInfo(callID):
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+
+    info = cur.execute('SELECT * FROM Call WHERE callID = ?', (callID,))
+    info = cur.fetchall()
+
+    conn.commit()
+    cur.close()
+    conn.close()
+    return info
+
+def getVicInfo(vID):
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+
+    info = cur.execute('SELECT * FROM Victim WHERE vID = ?', (vID,))
+    info = cur.fetchall()
+
+    conn.commit()
+    cur.close()
+    conn.close()
+    return info
