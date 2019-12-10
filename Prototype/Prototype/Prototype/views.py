@@ -141,7 +141,6 @@ def volunteer():
     roles = ["Volunteer"]
     global USER
     global NAME
-    assignVol(2000,'Kenny')
     if not authenticate(roles):
        if USER == None or request.referrer == None:
            return redirect(url_for('login'))
@@ -359,7 +358,7 @@ def editTable(editID):
 
     id, timestamp, emergency, address, phone, urgency, assigned = genTable()
     i = id.index(int(editID))
-    n = pullVictim()[0][0]
+    n = pullVictim()[i][0]
     e = emergency[i]
     a = address[i]
     p = phone[i]
@@ -654,12 +653,14 @@ def pullMission():
 def pushMission(incidentList, assignment):
     mID = getMissID()
     incomplete = "Incomplete"
-    unassigned = "Unassigned"
+    firstResp = ['Police Department', 'Fire Department', 'EMT']
+
     conn = sqlite3.connect("callCenter.db")
     cur = conn.cursor()
 
-    cur.execute('''INSERT INTO Mission(missionID, incidentList, missionAssignment, missionStatus, volunteerList) VALUES (?, ?, ?, ?, ?)''', (mID, incidentList, assignment, incomplete, unassigned))
-
+    cur.execute('''INSERT INTO Mission(missionID, incidentList, missionAssignment, missionStatus) VALUES (?, ?, ?, ?)''', (mID, incidentList, assignment, incomplete))
+    if (assignemnt not in firstResp):
+        cur.execute('''UPDATE Volunteer SET missionID = (?) WHERE username = (?)''', (mID, assignment))
     conn.commit()
     cur.close()
     conn.close()
