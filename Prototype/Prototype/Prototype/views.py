@@ -15,7 +15,7 @@ VID = 3000
 MISSID = 4000
 USER = "Admin"
 ID = None
-NAME = None
+NAME = "Kenny"
 
 # Generates new callID for Call table
 def getCallID():
@@ -97,7 +97,7 @@ def login():
             username = username[0]
             id = id[0]
             if userCheck(username) == True:
-                if  passCheck(username, id)== True: 
+                if  passCheck(username, id)== True:
                     ID = id
                     NAME = username
                     if roleCheck(username) == "Operator":
@@ -133,7 +133,7 @@ def login():
                 return redirect(url_for('login')) #Need to submit their data and return
             else:
                 return redirect(url_for('login'))
-    
+
     return render_template("loginpage.html")
 
 @app.route('/volunteer', methods=['GET', 'POST'])
@@ -145,7 +145,7 @@ def volunteer():
        if USER == None or request.referrer == None:
            return redirect(url_for('login'))
        return redirect(request.referrer)
-    
+
     if request.method == 'POST':
         username = NAME
         name = request.form['name']
@@ -155,14 +155,14 @@ def volunteer():
         state = request.form['state']
         zipCode = request.form['zipCode']
         service = request.form['service']
-        
+
         # Opening db
         conn = sqlite3.connect("callCenter.db")
         cur = conn.cursor()
 
         # Adding volunteer info
         cur.execute('''INSERT INTO Volunteer (username, name, phone, service, address, city, state, zip) VALUES (?, ?, ?, ?, ?, ?, ?, ?)''', (username, name, phone, service, address, city, state, zipCode))
-        
+
         # Commit queries and exit db
         conn.commit()
         cur.close
@@ -173,6 +173,10 @@ def volunteer():
 
 @app.route('/volunteerPanel')
 def volunteerPanel():
+    mID = int(getMID(NAME)[0][0])
+    eList = getEventList(mID)[0][0]
+    eID = eList.split(", ")
+
     return render_template("volunteerPanel.html")
 
 @app.route('/callCenter', methods=['GET', 'POST'])
@@ -196,7 +200,7 @@ def getInfo():
     # variables for the Operator
     operID = ID
     name = NAME
-    
+
     # variables for the Victim
     vName = request.form['vName']
     address = request.form['address']
@@ -215,7 +219,7 @@ def getInfo():
     # variables for Event
     urgency = request.form['Urgency']
     eventID = getEventID()
-    
+
     # Opening db
     conn = sqlite3.connect("callCenter.db")
     cur = conn.cursor()
@@ -313,7 +317,7 @@ def incidentPanel():
         a = request.form['address']
         p = request.form['phone']
         u = request.form['urgency']
-        
+
         # then insert edits into database
         editName(id, n)
         editEmergency(id, e)
@@ -321,11 +325,11 @@ def incidentPanel():
         editPhone(id, p)
         editUrgency(id, u)
         return redirect(request.referrer)
-      
+
       # edit table
       if len(edit) > 0 and edit[0].isnumeric():
         return editTable(edit[0])
-      
+
       # generate mission
       if len(generate) > 0:
           incidentList = ""
@@ -335,7 +339,7 @@ def incidentPanel():
               if i != len(generate) - 1:
                   incidentList += ", "
               assignVol(generate[i], assigned)
-          
+
           pushMission(incidentList, assigned)
 
       if len(delete) > 0:
@@ -375,7 +379,7 @@ def createMission():
         if USER == None or request.referrer == None:
             return redirect(url_for('login'))
         return redirect(request.referrer)
-       
+
    id, timestamp, emergency, address, phone, urgency, assigned = genTable()
    length = len(id)
    volunteers = [v[0] for v in getVols()]
@@ -447,7 +451,7 @@ def returnMission():
     zips = getZips()
     zipLen = len(zips)
 
-    # Get all names    
+    # Get all names
     missionIndex = 0
     for i in range(zipLen):
         # Returning names for the i'th zipcode
@@ -456,7 +460,7 @@ def returnMission():
         vIDs = cur.execute('SELECT vID FROM victim WHERE zipCode = (?)', zips[i])
         vIDs = cur.fetchall()
         vLen = len(vIDs)
-        
+
         # Assigning zipcode with event info into a 2D list
         for j in range(vLen):
             # 3 way inner join using name
@@ -466,16 +470,16 @@ def returnMission():
             missions.append([])
             # Converting zipcode from tuple to int
             zip = zips[i][0]
-            # Appending zipcode and event 
+            # Appending zipcode and event
             missions[missionIndex].append(zip)
             missions[missionIndex].append(eventInfo)
             missionIndex += 1
-    
+
     #print(missions)
     conn.commit()
     cur.close()
     conn.close()
-    # returns 2D list; 1st index of an element is the zipcode, 2nd is the event 
+    # returns 2D list; 1st index of an element is the zipcode, 2nd is the event
     return missions
 
 def deleteEvent(eventID):
@@ -491,7 +495,7 @@ def deleteEvent(eventID):
     cur.execute('DELETE FROM victim WHERE vID = ?', (event[0][3],))
     cur.execute('DELETE FROM call WHERE callID = ?', (event[0][1],))
     cur.execute('DELETE FROM event WHERE eventID = ?', (event[0][0],))
-  
+
     conn.commit()
     cur.close()
     conn.close()
@@ -499,20 +503,20 @@ def deleteEvent(eventID):
 def editEmergency(eventID, newEm):
     conn = sqlite3.connect("callCenter.db")
     cur = conn.cursor()
-    
+
 
     vID = cur.execute('SELECT vID FROM event WHERE eventID = ?', (eventID,))
     vID = cur.fetchall()
- 
+
     cur.execute('UPDATE Call SET emergency = ? WHERE vID = ?', (newEm, vID[0][0]))
     conn.commit()
     cur.close()
-    conn.close()   
-    
+    conn.close()
+
 def editAddress(eventID, newAdd):
     conn = sqlite3.connect("callCenter.db")
     cur = conn.cursor()
-    
+
 
     vID = cur.execute('SELECT vID FROM event WHERE eventID = ?', (eventID,))
     vID = cur.fetchall()
@@ -520,12 +524,12 @@ def editAddress(eventID, newAdd):
     cur.execute('UPDATE Victim SET address = ? WHERE vID = ?', (newAdd, vID[0][0]))
     conn.commit()
     cur.close()
-    conn.close() 
+    conn.close()
 
 def editPhone(eventID, newPhone):
     conn = sqlite3.connect("callCenter.db")
     cur = conn.cursor()
-    
+
 
     vID = cur.execute('SELECT vID FROM event WHERE eventID = ?', (eventID,))
     vID = cur.fetchall()
@@ -533,21 +537,21 @@ def editPhone(eventID, newPhone):
     cur.execute('UPDATE Victim SET phone = ? WHERE vID = ?', (newPhone, vID[0][0]))
     conn.commit()
     cur.close()
-    conn.close() 
+    conn.close()
 
 def editUrgency(eventID, newUrg):
     conn = sqlite3.connect("callCenter.db")
     cur = conn.cursor()
-    
+
     cur.execute('UPDATE Event SET urgency = ? WHERE eventID = ?', (newUrg, eventID))
     conn.commit()
     cur.close()
-    conn.close() 
+    conn.close()
 
 def editName(eventID, newName):
     conn = sqlite3.connect("callCenter.db")
     cur = conn.cursor()
-    
+
 
     vID = cur.execute('SELECT vID FROM event WHERE eventID = ?', (eventID,))
     vID = cur.fetchall()
@@ -564,7 +568,7 @@ def userCheck(username):
 
     userBool = cur.execute('SELECT username FROM users WHERE username = ?', (username,))
     userBool = cur.fetchall()
-    
+
     conn.commit()
     cur.close()
     conn.close()
@@ -579,7 +583,7 @@ def roleCheck(username):
 
     userType = cur.execute('SELECT userType FROM users WHERE username = ?', (username,))
     userType = cur.fetchall()
-    
+
     conn.commit()
     cur.close()
     conn.close()
@@ -594,7 +598,7 @@ def passCheck(username, id):
 
     passBool = cur.execute('SELECT username FROM users WHERE password = ?', (id,))
     passBool = cur.fetchall()
-    
+
     conn.commit()
     cur.close()
     conn.close()
@@ -616,7 +620,7 @@ def addUser(username, password, role):
 def getVols():
     conn = sqlite3.connect("callCenter.db")
     cur = conn.cursor()
-    
+
 
     vols = cur.execute('SELECT username FROM Volunteer')
     vols = cur.fetchall()
@@ -666,7 +670,7 @@ def pushMission(incidentList, assignment):
     conn.commit()
     cur.close()
     conn.close()
-   
+
 # Update the status of a mission
 def updateStatus(missionID, status):
     conn = sqlite3.connect("callCenter.db")
@@ -685,7 +689,7 @@ def deleteMission(missionID):
     cur = conn.cursor()
 
     cur.execute('DELETE FROM Mission WHERE missionID = ?', (missionID))
-  
+
     conn.commit()
     cur.close()
     conn.close()
@@ -703,12 +707,12 @@ def getMID(username):
     conn.close()
     return mid
 
-# Gets event list of the missionid 
+# Gets event list of the missionid
 def getEventList(missionID):
     conn = sqlite3.connect("callCenter.db")
     cur = conn.cursor()
 
-    eList = cur.execute('SELECT incidentList FROM mission WHERE missionID = ?', (missionID,))
+    eList = cur.execute('SELECT incidentList FROM Mission WHERE missionID = ?', (missionID,))
     eList = cur.fetchall()
 
     conn.commit()
