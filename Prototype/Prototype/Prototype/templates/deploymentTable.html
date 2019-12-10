@@ -1,12 +1,12 @@
-﻿{% extends "deploymentPanel.html" %}
+{% extends "deploymentPanel.html" %}
 {% block table %}
     {% for i in range(length) %}
     <tr class="data">
         <td>{{missionID[i]}}</td>
         <td>{{missionList[i]}}</td>
         <td>{{team[i]}}</td>
-        {% if var == True %}
-        <td><input type="text" placeholder="{{status[i]}}" name="status" /></td>
+        {% if id == missionID[i] %}
+        <td><input type="text" placeholder="{{status[i]}}" onkeypress="return event.keyCode != 13;" name="status" /></td>
         {% else %}
         <td>{{status[i]}}</td>
         {% endif %}
