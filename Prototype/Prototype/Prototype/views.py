@@ -689,3 +689,29 @@ def deleteMission(missionID):
     conn.commit()
     cur.close()
     conn.close()
+
+# Gets mission id given a username
+def getMID(username):
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+
+    mid = cur.execute('SELECT missionID FROM Volunteer WHERE username = ?', (username,))
+    mid = cur.fetchall()
+
+    conn.commit()
+    cur.close()
+    conn.close()
+    return mid
+
+# Gets event list of the missionid 
+def getEventList(missionID):
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+
+    eList = eventList = cur.execute('SELECT incidentList FROM mission WHERE missionID = ?', (missionID))
+    eList = cur.fetchall()
+
+    conn.commit()
+    cur.close()
+    conn.close()
+    return eList
