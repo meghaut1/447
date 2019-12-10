@@ -176,6 +176,46 @@ def volunteerPanel():
     mID = int(getMID(NAME)[0][0])
     eList = getEventList(mID)[0][0]
     eID = eList.split(", ")
+    print(eID)
+    callID = []
+    vicID = []
+
+    for i in range(len(eID)):
+        id = getCallID(eID[i])[0][0]
+        callID.append(id)
+
+    for i in range(len(eID)):
+        id = getVicID(eID[i])[0][0]
+        vicID.append(id)
+
+    callInfo = []
+    vicInfo = []
+
+    for i in range(len(callID)):
+        info = getCallInfo(callID[i])
+        callInfo.append(info)
+
+    for i in range(len(vicID)):
+        info = getVicInfo(vicID[i])
+        vicInfo.append(info)
+
+    timestamp = []
+    emergency = []
+    address = []
+    phone = []
+    urgency = []
+
+    for i in range(len(callInfo)):
+        timestamp.append(callInfo[i][0][2] + " " + callInfo[i][0][1])
+        emergency.append(callInfo[i][0][3])
+        address.append(vicInfo[i][0][1])
+        phone.append(vicInfo[i][0][5])
+        #urgency.append(events[i][2])
+    
+    print(timestamp)
+    print(emergency)
+    print(address)
+    print(phone)
 
     return render_template("volunteerPanel.html")
 
