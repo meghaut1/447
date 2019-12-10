@@ -61,15 +61,18 @@
     </table>
 
     {% if var== true %}
-    <select name="selectAssignment">
-        <option>Police Department</option>
-        <option>Fire Department</option>
-        <option>EMT</option>
-        {% for v in volunteers %}
-        <option>{{v}} (Volunteer)</option>
-        {% endfor %}
-    </select>
-
+    <div style="text-align: center">
+        Assign Mission To:
+        <select name="selectAssignment" style="margin: auto;">
+            <option>Police Department</option>
+            <option>Fire Department</option>
+            <option>EMT</option>
+            {% for v in volunteers %}
+            <option>{{v}} (Volunteer)</option>
+            {% endfor %}
+        </select>
+    </div>
+    <br />
     <div class="buttonStyle">
       <input type="submit" value="Generate Mission" />
     </div>
