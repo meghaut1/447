@@ -176,9 +176,10 @@ def volunteerPanel():
     mID = int(getMID(NAME)[0][0])
     eList = getEventList(mID)[0][0]
     eID = eList.split(", ")
-    print(eID)
+
     callID = []
     vicID = []
+    urgency = []    
 
     for i in range(len(eID)):
         id = getCallID(eID[i])[0][0]
@@ -186,6 +187,8 @@ def volunteerPanel():
 
     for i in range(len(eID)):
         id = getVicID(eID[i])[0][0]
+        u = getUrgency(eID[i])[0][0]
+        urgency.append(u)
         vicID.append(id)
 
     callInfo = []
@@ -203,21 +206,16 @@ def volunteerPanel():
     emergency = []
     address = []
     phone = []
-    urgency = []
 
     for i in range(len(callInfo)):
         timestamp.append(callInfo[i][0][2] + " " + callInfo[i][0][1])
         emergency.append(callInfo[i][0][3])
         address.append(vicInfo[i][0][1])
         phone.append(vicInfo[i][0][5])
-        #urgency.append(events[i][2])
     
-    print(timestamp)
-    print(emergency)
-    print(address)
-    print(phone)
+    length = len(urgency)
 
-    return render_template("volunteerPanel.html")
+    return render_template("volunteerPanel.html", length=length, id=eID, timestamp=timestamp, emergency=emergency, address=address, phone=phone, urgency=urgency)
 
 @app.route('/callCenter', methods=['GET', 'POST'])
 def callCenter():
