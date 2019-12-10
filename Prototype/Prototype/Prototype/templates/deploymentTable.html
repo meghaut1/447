@@ -12,11 +12,20 @@
         {% endif %}
 
         <td>
+            {% if id == missionID[i] %}
+            <button name="save" value="{{missionID[i]}}" style="cursor: pointer; background-color: transparent; border: 0px; width: 24px; height: 24px;">
+                <svg viewBox="0 0 24 24" style="width:20px; height: 20px;">
+                    <path fill="#FFF" d="M21.1,12.5L22.5,13.91L15.97,20.5L12.5,17L13.9,15.59L15.97,17.67L21.1,12.5M10,17L13,20H3V18C3,15.79 6.58,14 11,14L12.89,14.11L10,17M11,4A4,4 0 0,1 15,8A4,4 0 0,1 11,12A4,4 0 0,1 7,8A4,4 0 0,1 11,4Z" />
+                </svg>
+            </button>
+            {% else %}
             <button name="edit" value="{{missionID[i]}}" style="cursor: pointer; background-color: transparent; border: 0px; width: 24px; height: 24px;">
                 <svg viewBox="0 0 24 24" style="width:20px; height: 20px;">
                     <path fill="#FFF" d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
                 </svg>
             </button>
+            {% endif %}
+
             <button type="submit" name="delete" value="{{missionID[i]}}" style="cursor: pointer; background-color: transparent; border: 0px; width: 24px; height: 24px;">
                 <svg viewBox="0 0 24 24" style="width:20px; height: 20px;">
                     <path fill="#FFF" d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
