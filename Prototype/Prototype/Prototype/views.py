@@ -654,13 +654,15 @@ def pushMission(incidentList, assignment):
     mID = getMissID()
     incomplete = "Incomplete"
     firstResp = ['Police Department', 'Fire Department', 'EMT']
-
+    user = assignment.split()
     conn = sqlite3.connect("callCenter.db")
     cur = conn.cursor()
 
     cur.execute('''INSERT INTO Mission(missionID, incidentList, missionAssignment, missionStatus) VALUES (?, ?, ?, ?)''', (mID, incidentList, assignment, incomplete))
-    if (assignemnt not in firstResp):
-        cur.execute('''UPDATE Volunteer SET missionID = (?) WHERE username = (?)''', (mID, assignment))
+    print(user[0])
+    if (user[0] not in firstResp):
+        cur.execute('''UPDATE Volunteer SET missionID = (?) WHERE username = (?)''', (mID, user[0]))
+
     conn.commit()
     cur.close()
     conn.close()
@@ -687,3 +689,29 @@ def deleteMission(missionID):
     conn.commit()
     cur.close()
     conn.close()
+
+# Gets mission id given a username
+def getMID(username):
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+
+    mid = cur.execute('SELECT missionID FROM Volunteer WHERE username = ?', (username,))
+    mid = cur.fetchall()
+
+    conn.commit()
+    cur.close()
+    conn.close()
+    return mid
+
+# Gets event list of the missionid 
+def getEventList(missionID):
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+
+    eList = eventList = cur.execute('SELECT incidentList FROM mission WHERE missionID = ?', (missionID))
+    eList = cur.fetchall()
+
+    conn.commit()
+    cur.close()
+    conn.close()
+    return eList
