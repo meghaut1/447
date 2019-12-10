@@ -390,7 +390,7 @@ def deploymentPanel():
             return redirect(url_for('login'))
         return redirect(request.referrer)
 
-    var = False
+    id = False
     if request.method == 'POST':
         id = request.form.getlist('delete')
         edit = request.form.getlist('edit')
@@ -400,16 +400,16 @@ def deploymentPanel():
             deleteMission(id)
 
         if len(edit) > 0:
-          var = True
+          id = int(edit[0])
 
         if len(status) > 0:
             stat = ""
             for s in status:
                 if s != '':
                     stat = s
-
-            updateStatus(edit[0], stat)
-            var = False
+            if(stat != ''):
+                updateStatus(edit[0], stat)
+                id = False
 
     missions = pullMission()
     missionID = [m[0] for m in missions]
@@ -418,7 +418,7 @@ def deploymentPanel():
     status = [m[3] for m in missions]
     length = len(missionID)
 
-    return render_template('deploymentTable.html', length=length, missionID=missionID, missionList=missionList, team=team, status=status, var=var)
+    return render_template('deploymentTable.html', length=length, missionID=missionID, missionList=missionList, team=team, status=status, id=id)
 
 def getZips():
     conn = sqlite3.connect("callCenter.db")
