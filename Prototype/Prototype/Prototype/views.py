@@ -15,7 +15,7 @@ VID = 3000
 MISSID = 4000
 USER = "Admin"
 ID = None
-NAME = None
+NAME = "Kenny"
 
 # Generates new callID for Call table
 def getCallID():
@@ -173,6 +173,10 @@ def volunteer():
 
 @app.route('/volunteerPanel')
 def volunteerPanel():
+    mID = int(getMID(NAME)[0][0])
+    eList = getEventList(mID)[0][0]
+    eID = eList.split(", ")
+    
     return render_template("volunteerPanel.html")
 
 @app.route('/callCenter', methods=['GET', 'POST'])
@@ -708,7 +712,7 @@ def getEventList(missionID):
     conn = sqlite3.connect("callCenter.db")
     cur = conn.cursor()
 
-    eList = eventList = cur.execute('SELECT incidentList FROM mission WHERE missionID = ?', (missionID))
+    eList = cur.execute('SELECT incidentList FROM Mission WHERE missionID = ?', (missionID,))
     eList = cur.fetchall()
 
     conn.commit()
