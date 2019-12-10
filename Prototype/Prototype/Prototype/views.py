@@ -344,8 +344,9 @@ def incidentPanel():
 
     id, timestamp, emergency, address, phone, urgency, assigned = genTable()
     length = len(id)
+    volunteers = []
 
-    return render_template('IncidentTable.html', var=False, length=length, id=id, timestamp=timestamp, emergency=emergency, address=address, phone=phone, urgency=urgency, assigned=assigned)
+    return render_template('IncidentTable.html', var=False, volunteers=volunteers, length=length, id=id, timestamp=timestamp, emergency=emergency, address=address, phone=phone, urgency=urgency, assigned=assigned)
 
 @app.route('/incidentPanel/edit', methods=['POST', 'GET'])
 def editTable(editID):
@@ -378,8 +379,9 @@ def createMission():
        
    id, timestamp, emergency, address, phone, urgency, assigned = genTable()
    length = len(id)
+   volunteers = [v[0] for v in getVols()]
 
-   return render_template('IncidentTable.html', var=True, length=length, id=id, timestamp=timestamp, emergency=emergency, address=address, phone=phone, urgency=urgency, assigned=assigned)
+   return render_template('IncidentTable.html', var=True, volunteers=volunteers, length=length, id=id, timestamp=timestamp, emergency=emergency, address=address, phone=phone, urgency=urgency, assigned=assigned)
 
 @app.route('/deploymentPanel', methods=['POST', 'GET'])
 def deploymentPanel():

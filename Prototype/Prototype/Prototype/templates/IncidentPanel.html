@@ -65,6 +65,9 @@
         <option>Police Department</option>
         <option>Fire Department</option>
         <option>EMT</option>
+        {% for v in volunteers %}
+        <option>{{v}} (Volunteer)</option>
+        {% endfor %}
     </select>
 
     <div class="buttonStyle">
