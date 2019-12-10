@@ -807,3 +807,15 @@ def getVicInfo(vID):
     cur.close()
     conn.close()
     return info
+
+def getUrgency(eventID):
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+
+    info = cur.execute('SELECT urgency FROM Event WHERE eventID = ?', (eventID,))
+    info = cur.fetchall()
+
+    conn.commit()
+    cur.close()
+    conn.close()
+    return info
