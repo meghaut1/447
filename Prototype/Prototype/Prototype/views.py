@@ -654,13 +654,15 @@ def pushMission(incidentList, assignment):
     mID = getMissID()
     incomplete = "Incomplete"
     firstResp = ['Police Department', 'Fire Department', 'EMT']
-
+    user = assignment.split()
     conn = sqlite3.connect("callCenter.db")
     cur = conn.cursor()
 
     cur.execute('''INSERT INTO Mission(missionID, incidentList, missionAssignment, missionStatus) VALUES (?, ?, ?, ?)''', (mID, incidentList, assignment, incomplete))
-    if (assignemnt not in firstResp):
-        cur.execute('''UPDATE Volunteer SET missionID = (?) WHERE username = (?)''', (mID, assignment))
+    print(user[0])
+    if (user[0] not in firstResp):
+        cur.execute('''UPDATE Volunteer SET missionID = (?) WHERE username = (?)''', (mID, user[0]))
+
     conn.commit()
     cur.close()
     conn.close()
