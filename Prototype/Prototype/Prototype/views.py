@@ -176,7 +176,45 @@ def volunteerPanel():
     eList = getEventList(mID)[0][0]
     eID = eList.split(", ")
 
-    return render_template("volunteerPanel.html")
+    callID = []
+    vicID = []
+    urgency = []    
+
+    for i in range(len(eID)):
+        id = getCallID(eID[i])[0][0]
+        callID.append(id)
+
+    for i in range(len(eID)):
+        id = getVicID(eID[i])[0][0]
+        u = getUrgency(eID[i])[0][0]
+        urgency.append(u)
+        vicID.append(id)
+
+    callInfo = []
+    vicInfo = []
+
+    for i in range(len(callID)):
+        info = getCallInfo(callID[i])
+        callInfo.append(info)
+
+    for i in range(len(vicID)):
+        info = getVicInfo(vicID[i])
+        vicInfo.append(info)
+
+    timestamp = []
+    emergency = []
+    address = []
+    phone = []
+
+    for i in range(len(callInfo)):
+        timestamp.append(callInfo[i][0][2] + " " + callInfo[i][0][1])
+        emergency.append(callInfo[i][0][3])
+        address.append(vicInfo[i][0][1])
+        phone.append(vicInfo[i][0][5])
+    
+    length = len(urgency)
+
+    return render_template("volunteerPanel.html", length=length, id=eID, timestamp=timestamp, emergency=emergency, address=address, phone=phone, urgency=urgency)
 
 @app.route('/callCenter', methods=['GET', 'POST'])
 def callCenter():
@@ -760,6 +798,18 @@ def getVicInfo(vID):
     cur = conn.cursor()
 
     info = cur.execute('SELECT * FROM Victim WHERE vID = ?', (vID,))
+    info = cur.fetchall()
+
+    conn.commit()
+    cur.close()
+    conn.close()
+    return info
+
+def getUrgency(eventID):
+    conn = sqlite3.connect("callCenter.db")
+    cur = conn.cursor()
+
+    info = cur.execute('SELECT urgency FROM Event WHERE eventID = ?', (eventID,))
     info = cur.fetchall()
 
     conn.commit()
