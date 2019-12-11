@@ -93,40 +93,39 @@ def login():
 
         print(IDReg)
         #login
-        if (len(id) > 0):
-            username = username[0]
-            id = id[0]
-            if userCheck(username) == True:
-                if  passCheck(username, id)== True:
-                    ID = id
-                    NAME = username
-                    if roleCheck(username) == "Operator":
+        if (len(id) > 0): #If the length of the id is greater than zero, just if the user typed a value
+            username = username[0] # Store their username
+            id = id[0] # Store their password
+            if userCheck(username) == True: # If the username exists in the database
+                if  passCheck(username, id)== True: # If the password matches the one stored in the database
+                    ID = id # Store the ID into the global ID var
+                    NAME = username # Store the username into the global name var
+                    if roleCheck(username) == "Operator": # If the user is an operator change authentication to only allow them to go to certain pages and redirect
                         USER = "Operator"
                         return redirect(url_for('callCenter'))
-                    if roleCheck(username) == "Volunteer":
+                    if roleCheck(username) == "Volunteer": # If the user is a volunteer change authentication to only allow them to go to certain pages and redirect
                         USER = "Volunteer"
                         return redirect(url_for('volunteer'))
-                    if roleCheck(username) == "Manager":
+                    if roleCheck(username) == "Manager": # If the user is a manager change authentication to only allow them to go to certain pages and redirect
                         USER = "Manager"
                         return redirect(url_for('deploymentPanel'))
-                    if roleCheck(username) == "Officer":
+                    if roleCheck(username) == "Officer": # If the user is an officer change authentication to only allow them to go to certain pages and redirect
                         USER = "Officer"
-                        return redirect(url_for('incidentPanel'))
+                        return redirect(url_for('incidentPanel')) # If the user is an admin change authentication to only allow them to go to certain pages and redirect
                     if roleCheck(username) == "Admin":
                         USER = "Admin"
                         return redirect(url_for('incidentPanel'))
-                    #Possible another if for determing what page to go for each user -- Will have to check what role they are then do ifs off that
         #register
         else:
 
-            usernameReg1 = usernameReg[0]
-            IDReg1 = IDReg[0]
-            userTypeReg1 = userTypeReg[0]
+            usernameReg1 = usernameReg[0] # Store their username
+            IDReg1 = IDReg[0] # Store their password/ID
+            userTypeReg1 = userTypeReg[0] # Store their user type
             print(usernameReg1)
             print(IDReg1)
             print(userTypeReg1)
             print("Test1")
-            if userCheck(usernameReg1) == False:
+            if userCheck(usernameReg1) == False: # If the username does not already exist in the database add the user to it and redirect to login
                 print("Test")
                 addUser(usernameReg1, IDReg1, userTypeReg1)
                 print("Test2")
