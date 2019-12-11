@@ -13,7 +13,7 @@ CALLID = 1000
 EVENTID = 2000
 VID = 3000
 MISSID = 4000
-USER = "Admin"
+USER = None
 ID = None
 NAME = "Kenny"
 
@@ -175,7 +175,10 @@ def volunteerPanel():
     if USER == "Admin":
         return render_template("volunteerPanel.html", length=0)
 
-    mID = int(getMID(NAME)[0][0])
+    mID = getMID(NAME)[0][0]
+    if mID == None:
+        print("IS NULL")
+        return render_template("volunteerPanel.html", length=0)
     eList = getEventList(mID)[0][0]
     eID = eList.split(", ")
 
