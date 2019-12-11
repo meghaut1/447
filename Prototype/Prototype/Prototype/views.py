@@ -173,6 +173,9 @@ def volunteer():
 
 @app.route('/volunteerPanel')
 def volunteerPanel():
+    if USER == "Admin":
+        return render_template("volunteerPanel.html", length=0)
+
     mID = int(getMID(NAME)[0][0])
     eList = getEventList(mID)[0][0]
     eID = eList.split(", ")
