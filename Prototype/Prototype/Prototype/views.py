@@ -728,7 +728,7 @@ def deleteMission(missionID):
     conn = sqlite3.connect("callCenter.db")
     cur = conn.cursor()
 
-    cur.execute('UPDATE Volunteer SET = NULL WHERE missionID = ?', (missionID))
+    cur.execute('UPDATE Volunteer SET missionID = NULL WHERE missionID = ?', (missionID))
     cur.execute('DELETE FROM Mission WHERE missionID = ?', (missionID))
     
     conn.commit()
