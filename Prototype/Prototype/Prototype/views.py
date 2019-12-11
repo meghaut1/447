@@ -184,7 +184,7 @@ def volunteerPanel():
     urgency = []    
 
     for i in range(len(eID)):
-        id = getCallID(eID[i])[0][0]
+        id = getcallID(eID[i])[0][0]
         callID.append(id)
 
     for i in range(len(eID)):
@@ -760,7 +760,7 @@ def getEventList(missionID):
     conn.close()
     return eList
 
-def getCallID(eventID):
+def getcallID(eventID):
     conn = sqlite3.connect("callCenter.db")
     cur = conn.cursor()
 
