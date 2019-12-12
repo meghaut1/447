@@ -13,4 +13,4 @@
 # Running the Software
 - Download the Prototype folder, then launch the Prototype.sln file in Visual Studio
 - Run in Visual Studio 
-- Open an internet browser type "http://127.0.0.1:5000/" to access the app
+- Open an internet browser type "http://localhost:5000/" to access the app
